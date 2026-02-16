@@ -21,6 +21,11 @@ const DemoModal = ({ isOpen, onClose, language }) => {
     { id: 'education', name: t.businessTypes.education, icon: '🎓' },
     { id: 'auto', name: t.businessTypes.auto, icon: '🚗' },
     { id: 'restaurant', name: t.businessTypes.restaurant, icon: '🍽️' },
+    { id: 'spa_fitness', name: t.businessTypes.spa_fitness, icon: '🧘' },
+    { id: 'travel', name: t.businessTypes.travel, icon: '✈️' },
+    { id: 'language', name: t.businessTypes.language, icon: '📚' },
+    { id: 'advertising', name: t.businessTypes.advertising, icon: '📢' },
+    { id: 'photo_event', name: t.businessTypes.photo_event, icon: '📸' },
     { id: 'other', name: t.businessTypes.other, icon: '🏢' }
   ];
 
@@ -42,17 +47,36 @@ const DemoModal = ({ isOpen, onClose, language }) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Generate demo URL (in real implementation, this would come from backend)
-    const demoUrl = `https://demo.cliento.uz/${selectedBusiness}?token=demo_${Date.now()}`;
-    
+
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || 'https://api.cliento.uz';
+
+      const response = await fetch(`${API_URL}/api/v1/demo/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessType: selectedBusiness,
+          name: formData.name,
+          phone: formData.phone,
+          companyName: formData.companyName,
+          employeeCount: formData.employeeCount,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.redirectUrl) {
+        // Backend qaytargan URL ga redirect (yangi tab)
+        window.open(data.redirectUrl, '_blank');
+      } else {
+        alert('Demo yaratishda xatolik yuz berdi. Iltimos qayta urinib ko\'ring.');
+      }
+    } catch (error) {
+      console.error('Demo creation error:', error);
+      alert('Server bilan bog\'lanishda xatolik. Iltimos qayta urinib ko\'ring.');
+    }
+
     setIsLoading(false);
-    
-    // Redirect to demo
-    window.open(demoUrl, '_blank');
     onClose();
     resetModal();
   };
@@ -78,7 +102,7 @@ const DemoModal = ({ isOpen, onClose, language }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-card border border-border rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+      <div className="bg-card border border-border rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
           <div>
@@ -123,7 +147,7 @@ const DemoModal = ({ isOpen, onClose, language }) => {
               <h3 className="text-lg font-semibold text-foreground">
                 Biznes turingizni tanlang
               </h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-3">
                 {businessTypes.map((business) => (
                   <button
                     key={business.id}

@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { 
-  Megaphone, 
-  Scissors, 
-  GraduationCap, 
-  Car, 
-  UtensilsCrossed, 
+import {
+  Megaphone,
+  Scissors,
+  GraduationCap,
+  Car,
+  UtensilsCrossed,
   Building2,
-  ArrowRight
+  ArrowRight,
+  Dumbbell,
+  Plane,
+  BookOpen,
+  Speaker,
+  Camera
 } from 'lucide-react';
 import { translations } from '../lib/translations';
 
@@ -69,11 +74,46 @@ const TargetAudience = ({ language }) => {
       delay: '0.5s'
     },
     {
+      icon: Dumbbell,
+      title: t.spaFitness || 'Spa va fitnes',
+      description: t.spaFitnessDesc || 'Abonement sotish, trener tayinlash va mijozlarni kuzatish uchun',
+      gradient: 'from-teal-500 to-cyan-500',
+      delay: '0.6s'
+    },
+    {
+      icon: Plane,
+      title: t.travelAgencies || 'Turistik agentliklar',
+      description: t.travelAgenciesDesc || 'Tur paketlar, viza xizmatlari va mehmonxona bronlarini boshqarish uchun',
+      gradient: 'from-sky-500 to-blue-500',
+      delay: '0.7s'
+    },
+    {
+      icon: BookOpen,
+      title: t.languageCenters || 'Til o\'quv markazlari',
+      description: t.languageCentersDesc || 'O\'quvchilarni ro\'yxatga olish, daraja aniqlash va kurslarni boshqarish uchun',
+      gradient: 'from-amber-500 to-orange-500',
+      delay: '0.8s'
+    },
+    {
+      icon: Speaker,
+      title: t.adAgencies || 'Reklama agentliklari',
+      description: t.adAgenciesDesc || 'Reklama kampaniyalari, mijoz loyihalari va byudjetlarni nazorat qilish uchun',
+      gradient: 'from-red-500 to-pink-500',
+      delay: '0.9s'
+    },
+    {
+      icon: Camera,
+      title: t.photoEvent || 'Fotostudiya va event',
+      description: t.photoEventDesc || 'Fotosessiyalar, tadbirlarni rejalashtirish va buyurtmalarni kuzatish uchun',
+      gradient: 'from-violet-500 to-purple-500',
+      delay: '1.0s'
+    },
+    {
       icon: Building2,
       title: t.otherServices,
       description: t.otherServicesDesc,
       gradient: 'from-indigo-500 to-purple-500',
-      delay: '0.6s'
+      delay: '1.1s'
     }
   ];
 
@@ -145,7 +185,7 @@ const TargetAudience = ({ language }) => {
           <div className="bg-gradient-to-r from-primary/5 to-purple-500/5 rounded-2xl p-8 border border-primary/10">
             <div className="grid md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">6+</div>
+                <div className="text-3xl font-bold text-primary mb-2">11+</div>
                 <div className="text-muted-foreground">Biznes turlari</div>
               </div>
               <div>

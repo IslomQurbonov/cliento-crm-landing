@@ -52,6 +52,21 @@ export const translations = {
     restaurants: "Restoranlar",
     restaurantsDesc: "Bron qilish (rezervatsiya) va doimiy mijozlar bazasini yuritish uchun",
     
+    spaFitness: "Spa va fitnes markazlari",
+    spaFitnessDesc: "Abonement sotish, trener tayinlash va mijozlarni kuzatish uchun",
+
+    travelAgencies: "Turistik agentliklar",
+    travelAgenciesDesc: "Tur paketlar, viza xizmatlari va mehmonxona bronlarini boshqarish uchun",
+
+    languageCenters: "Til o'quv markazlari",
+    languageCentersDesc: "O'quvchilarni ro'yxatga olish, daraja aniqlash va kurslarni boshqarish uchun",
+
+    adAgencies: "Reklama agentliklari",
+    adAgenciesDesc: "Reklama kampaniyalari, mijoz loyihalari va byudjetlarni nazorat qilish uchun",
+
+    photoEvent: "Fotostudiya va event xizmatlari",
+    photoEventDesc: "Fotosessiyalar, tadbirlarni rejalashtirish va buyurtmalarni kuzatish uchun",
+
     otherServices: "Boshqa xizmatlar",
     otherServicesDesc: "Turli xizmat ko'rsatish sohalari uchun moslashtirilgan yechimlar",
     
@@ -141,6 +156,11 @@ export const translations = {
       education: "Ta'lim markazi",
       auto: "Avtoservis",
       restaurant: "Restoran",
+      spa_fitness: "Spa va fitnes",
+      travel: "Turistik agentlik",
+      language: "Til o'quv markazi",
+      advertising: "Reklama agentligi",
+      photo_event: "Fotostudiya va event",
       other: "Boshqa"
     },
     
@@ -209,6 +229,21 @@ export const translations = {
     restaurants: "Рестораны",
     restaurantsDesc: "Для бронирования и ведения базы постоянных клиентов",
     
+    spaFitness: "Спа и фитнес центры",
+    spaFitnessDesc: "Для продажи абонементов, назначения тренеров и сопровождения клиентов",
+
+    travelAgencies: "Туристические агентства",
+    travelAgenciesDesc: "Для управления тур-пакетами, визовыми услугами и бронированием отелей",
+
+    languageCenters: "Языковые центры",
+    languageCentersDesc: "Для регистрации учеников, определения уровня и управления курсами",
+
+    adAgencies: "Рекламные агентства",
+    adAgenciesDesc: "Для контроля рекламных кампаний, клиентских проектов и бюджетов",
+
+    photoEvent: "Фотостудии и ивент-услуги",
+    photoEventDesc: "Для планирования фотосессий, мероприятий и отслеживания заказов",
+
     otherServices: "Другие услуги",
     otherServicesDesc: "Адаптированные решения для различных сфер обслуживания",
     
@@ -298,6 +333,11 @@ export const translations = {
       education: "Образовательный центр",
       auto: "Автосервис",
       restaurant: "Ресторан",
+      spa_fitness: "Спа и фитнес",
+      travel: "Туристическое агентство",
+      language: "Языковой центр",
+      advertising: "Рекламное агентство",
+      photo_event: "Фотостудия и ивенты",
       other: "Другое"
     },
     
@@ -366,6 +406,21 @@ export const translations = {
     restaurants: "Restaurants",
     restaurantsDesc: "For reservations and maintaining a regular customer database",
     
+    spaFitness: "Spa & Fitness Centers",
+    spaFitnessDesc: "For selling memberships, assigning trainers and tracking clients",
+
+    travelAgencies: "Travel Agencies",
+    travelAgenciesDesc: "For managing tour packages, visa services and hotel bookings",
+
+    languageCenters: "Language Centers",
+    languageCentersDesc: "For student registration, level testing and course management",
+
+    adAgencies: "Advertising Agencies",
+    adAgenciesDesc: "For managing ad campaigns, client projects and budgets",
+
+    photoEvent: "Photo Studios & Events",
+    photoEventDesc: "For scheduling photo sessions, planning events and tracking orders",
+
     otherServices: "Other Services",
     otherServicesDesc: "Customized solutions for various service industries",
     
@@ -455,6 +510,11 @@ export const translations = {
       education: "Education Center",
       auto: "Auto Service",
       restaurant: "Restaurant",
+      spa_fitness: "Spa & Fitness",
+      travel: "Travel Agency",
+      language: "Language Center",
+      advertising: "Ad Agency",
+      photo_event: "Photo & Events",
       other: "Other"
     },
     
