@@ -35,39 +35,39 @@ const Hero = ({ language, openDemoModal }) => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
+              <Button
                 onClick={openDemoModal}
                 size="lg"
-                className="btn-primary text-lg px-8 py-4 animate-pulse-glow"
+                className="btn-primary text-lg px-8 py-4"
               >
                 {t.tryDemoNow}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-              
-              <Button 
-                variant="outline" 
+
+              <Button
+                variant="outline"
                 size="lg"
                 className="text-lg px-8 py-4 hover-lift"
                 onClick={() => document.getElementById('demo-preview')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <Play className="mr-2 w-5 h-5" />
-                Ko'rish
+                {t.watch}
               </Button>
             </div>
 
-            {/* Stats */}
+            {/* Advantages instead of fake stats */}
             <div className="grid grid-cols-3 gap-8 pt-8 border-t border-border">
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-primary">1000+</div>
-                <div className="text-sm text-muted-foreground">Mijozlar</div>
+                <div className="text-2xl md:text-3xl font-bold text-primary">{t.heroStat1}</div>
+                <div className="text-sm text-muted-foreground">{t.heroStat1Desc}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-primary">50+</div>
-                <div className="text-sm text-muted-foreground">Bizneslar</div>
+                <div className="text-2xl md:text-3xl font-bold text-primary">{t.heroStat2}</div>
+                <div className="text-sm text-muted-foreground">{t.heroStat2Desc}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-primary">99%</div>
-                <div className="text-sm text-muted-foreground">Mamnunlik</div>
+                <div className="text-2xl md:text-3xl font-bold text-primary">{t.heroStat3}</div>
+                <div className="text-sm text-muted-foreground">{t.heroStat3Desc}</div>
               </div>
             </div>
           </div>
@@ -76,21 +76,22 @@ const Hero = ({ language, openDemoModal }) => {
           <div className={`relative ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`}>
             <div className="relative">
               {/* Main Dashboard Image */}
-              <div className="relative z-10 transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                <img 
-                  src={crmDashboard} 
-                  alt="Cliento CRM Dashboard"
+              <div className="relative z-10 transform lg:rotate-2 hover:rotate-0 transition-transform duration-500">
+                <img
+                  src={crmDashboard}
+                  alt="Cliento CRM Dashboard - mijozlar boshqaruv tizimi"
                   className="w-full h-auto rounded-2xl shadow-2xl hover-lift"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
               </div>
 
               {/* Floating Elements */}
-              <div className="absolute -top-4 -left-4 w-20 h-20 bg-green-500 rounded-2xl flex items-center justify-center shadow-lg animate-float">
+              <div className="absolute -top-4 -left-4 z-20 w-20 h-20 bg-green-500 rounded-2xl flex items-center justify-center shadow-lg animate-float">
                 <span className="text-white font-bold text-2xl">✓</span>
               </div>
-              
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-500 rounded-2xl flex items-center justify-center shadow-lg animate-float" style={{ animationDelay: '1s' }}>
+
+              <div className="absolute -bottom-4 -right-4 z-20 w-24 h-24 bg-blue-500 rounded-2xl flex items-center justify-center shadow-lg animate-float" style={{ animationDelay: '1s' }}>
                 <span className="text-white font-bold text-lg">CRM</span>
               </div>
 
@@ -99,20 +100,20 @@ const Hero = ({ language, openDemoModal }) => {
             </div>
 
             {/* Feature Badges */}
-            <div className="absolute top-1/2 -left-8 transform -translate-y-1/2">
+            <div className="absolute top-1/2 -left-8 transform -translate-y-1/2 z-20 hidden lg:block">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 animate-slide-in-left stagger-1">
                 <div className="flex items-center space-x-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-sm font-medium">Mijozlar bazasi</span>
+                  <span className="text-sm font-medium">{t.customerBase}</span>
                 </div>
               </div>
             </div>
 
-            <div className="absolute bottom-1/4 -right-8">
+            <div className="absolute bottom-1/4 -right-8 z-20 hidden lg:block">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 animate-slide-in-right stagger-2">
                 <div className="flex items-center space-x-3">
                   <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm font-medium">Avtomatlashtirish</span>
+                  <span className="text-sm font-medium">{t.automationBadge}</span>
                 </div>
               </div>
             </div>
@@ -131,4 +132,3 @@ const Hero = ({ language, openDemoModal }) => {
 };
 
 export default Hero;
-

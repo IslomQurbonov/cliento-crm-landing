@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { 
-  Users, 
-  BarChart3, 
-  Settings, 
-  Bell, 
-  MessageCircle, 
+import {
+  BarChart3,
+  Settings,
+  Bell,
+  MessageCircle,
   Zap,
   Database,
   CheckCircle
 } from 'lucide-react';
 import { translations } from '../lib/translations';
 
-const Features = ({ language }) => {
+const Features = ({ language, openDemoModal }) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
   const t = translations[language];
@@ -105,7 +104,7 @@ const Features = ({ language }) => {
               >
                 {/* Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
+
                 {/* Icon */}
                 <div className={`relative w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   <IconComponent className="w-8 h-8 text-white" />
@@ -134,13 +133,16 @@ const Features = ({ language }) => {
         <div className={`text-center mt-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.8s' }}>
           <div className="bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-2xl p-8 border border-primary/20">
             <h3 className="text-2xl font-bold text-foreground mb-4">
-              Barcha funksiyalarni sinab ko'ring
+              {t.tryAllFeatures}
             </h3>
             <p className="text-muted-foreground mb-6">
-              Cliento CRM ning to'liq imkoniyatlarini bepul demo rejimida kashf eting
+              {t.tryAllFeaturesDesc}
             </p>
-            <button className="btn-primary px-8 py-3 rounded-lg font-semibold hover-lift">
-              Demo boshlash
+            <button
+              onClick={openDemoModal}
+              className="btn-primary px-8 py-3 rounded-lg font-semibold hover-lift text-white"
+            >
+              {t.startDemo}
             </button>
           </div>
         </div>
@@ -150,4 +152,3 @@ const Features = ({ language }) => {
 };
 
 export default Features;
-

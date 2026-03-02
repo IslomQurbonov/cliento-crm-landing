@@ -4,7 +4,7 @@ import { translations } from '../lib/translations';
 
 const FAQ = ({ language }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [openItems, setOpenItems] = useState(new Set([0])); // First item open by default
+  const [openItems, setOpenItems] = useState(new Set([0]));
   const sectionRef = useRef(null);
   const t = translations[language];
 
@@ -62,7 +62,8 @@ const FAQ = ({ language }) => {
               <div className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <button
                   onClick={() => toggleItem(index)}
-                  className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-muted/50 transition-colors duration-200"
+                  className="cursor-pointer w-full px-8 py-6 text-left flex items-center justify-between hover:bg-muted/50 transition-colors duration-200"
+                  aria-expanded={openItems.has(index)}
                 >
                   <h3 className="text-lg font-semibold text-foreground pr-4">
                     {item.question}
@@ -75,7 +76,7 @@ const FAQ = ({ language }) => {
                     )}
                   </div>
                 </button>
-                
+
                 <div className={`overflow-hidden transition-all duration-300 ${
                   openItems.has(index) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                 }`}>
@@ -96,18 +97,26 @@ const FAQ = ({ language }) => {
         <div className={`text-center mt-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.8s' }}>
           <div className="bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-2xl p-8 border border-primary/20 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-foreground mb-4">
-              Boshqa savollaringiz bormi?
+              {t.moreQuestions}
             </h3>
             <p className="text-muted-foreground mb-6">
-              Bizning qo'llab-quvvatlash jamoasi sizga yordam berishga tayyor
+              {t.moreQuestionsDesc}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
-                Qo'llab-quvvatlash bilan bog'lanish
-              </button>
-              <button className="border border-border px-6 py-3 rounded-lg font-semibold hover:bg-muted transition-colors">
-                Telegram orqali yozing
-              </button>
+              <a
+                href="mailto:info@cliento.uz"
+                className="cursor-pointer bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors inline-block"
+              >
+                {t.contactSupport}
+              </a>
+              <a
+                href="https://t.me/cliento_support"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer border border-border px-6 py-3 rounded-lg font-semibold hover:bg-muted transition-colors inline-block"
+              >
+                {t.writeTelegram}
+              </a>
             </div>
           </div>
         </div>
@@ -116,16 +125,16 @@ const FAQ = ({ language }) => {
         <div className={`mt-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '1s' }}>
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold text-primary mb-2">&lt; 2 min</div>
-              <div className="text-muted-foreground">O'rtacha javob vaqti</div>
+              <div className="text-3xl font-bold text-primary mb-2">{t.avgResponseTime}</div>
+              <div className="text-muted-foreground">{t.avgResponseTimeLabel}</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-primary mb-2">98%</div>
-              <div className="text-muted-foreground">Mamnun mijozlar</div>
+              <div className="text-3xl font-bold text-primary mb-2">{t.professionalHelp}</div>
+              <div className="text-muted-foreground">{t.professionalHelpLabel}</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-primary mb-2">24/7</div>
-              <div className="text-muted-foreground">Qo'llab-quvvatlash</div>
+              <div className="text-3xl font-bold text-primary mb-2">{t.alwaysAvailable}</div>
+              <div className="text-muted-foreground">{t.alwaysAvailableLabel}</div>
             </div>
           </div>
         </div>
@@ -135,4 +144,3 @@ const FAQ = ({ language }) => {
 };
 
 export default FAQ;
-

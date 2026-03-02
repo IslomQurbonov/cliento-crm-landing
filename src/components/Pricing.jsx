@@ -3,7 +3,7 @@ import { Check, Star, Zap } from 'lucide-react';
 import { Button } from './ui/button';
 import { translations } from '../lib/translations';
 
-const Pricing = ({ language }) => {
+const Pricing = ({ language, openDemoModal }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [billingCycle, setBillingCycle] = useState('monthly');
   const sectionRef = useRef(null);
@@ -30,7 +30,7 @@ const Pricing = ({ language }) => {
     {
       name: t.basic,
       price: t.basicPrice,
-      yearlyPrice: "1,500,000 so'm/yil",
+      yearlyPrice: t.basicYearlyPrice,
       features: t.basicFeatures,
       popular: false,
       color: 'border-border',
@@ -40,7 +40,7 @@ const Pricing = ({ language }) => {
     {
       name: t.standard,
       price: t.standardPrice,
-      yearlyPrice: "2,000,000 so'm/yil",
+      yearlyPrice: t.standardYearlyPrice,
       features: t.standardFeatures,
       popular: true,
       color: 'border-primary shadow-lg shadow-primary/20',
@@ -50,7 +50,7 @@ const Pricing = ({ language }) => {
     {
       name: t.pro,
       price: t.proPrice,
-      yearlyPrice: "3,000,000 so'm/yil",
+      yearlyPrice: t.proYearlyPrice,
       features: t.proFeatures,
       popular: false,
       color: 'border-border',
@@ -74,10 +74,11 @@ const Pricing = ({ language }) => {
           {/* Billing Toggle */}
           <div className="flex items-center justify-center space-x-4">
             <span className={`text-sm ${billingCycle === 'monthly' ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
-              Oylik
+              {t.monthly}
             </span>
             <button
               onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+              aria-label="Toggle billing cycle"
               className={`relative w-14 h-7 rounded-full transition-colors ${
                 billingCycle === 'yearly' ? 'bg-primary' : 'bg-muted'
               }`}
@@ -87,11 +88,11 @@ const Pricing = ({ language }) => {
               }`}></div>
             </button>
             <span className={`text-sm ${billingCycle === 'yearly' ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
-              Yillik
+              {t.yearly}
             </span>
             {billingCycle === 'yearly' && (
               <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                20% tejash
+                {t.savePercent}
               </span>
             )}
           </div>
@@ -114,7 +115,7 @@ const Pricing = ({ language }) => {
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <div className="bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium flex items-center space-x-1">
                     <Star className="w-4 h-4" />
-                    <span>Mashhur</span>
+                    <span>{t.popular}</span>
                   </div>
                 </div>
               )}
@@ -143,7 +144,10 @@ const Pricing = ({ language }) => {
               </div>
 
               {/* CTA Button */}
-              <Button className={`w-full ${plan.buttonClass} py-3`}>
+              <Button
+                onClick={openDemoModal}
+                className={`w-full ${plan.buttonClass} py-3`}
+              >
                 {plan.popular && <Zap className="w-4 h-4 mr-2" />}
                 {t.choosePlan}
               </Button>
@@ -160,32 +164,32 @@ const Pricing = ({ language }) => {
         <div className={`text-center mt-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.5s' }}>
           <div className="bg-card border border-border rounded-2xl p-8 max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold text-foreground mb-4">
-              Barcha rejalar uchun
+              {t.allPlansInclude}
             </h3>
             <div className="grid md:grid-cols-4 gap-6 text-center">
               <div>
                 <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-3">
                   <Check className="w-6 h-6 text-white" />
                 </div>
-                <p className="text-sm text-muted-foreground">SSL shifrlash</p>
+                <p className="text-sm text-muted-foreground">{t.sslEncryption}</p>
               </div>
               <div>
                 <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mx-auto mb-3">
                   <Check className="w-6 h-6 text-white" />
                 </div>
-                <p className="text-sm text-muted-foreground">24/7 qo'llab-quvvatlash</p>
+                <p className="text-sm text-muted-foreground">{t.support24}</p>
               </div>
               <div>
                 <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mx-auto mb-3">
                   <Check className="w-6 h-6 text-white" />
                 </div>
-                <p className="text-sm text-muted-foreground">Ma'lumotlar zaxirasi</p>
+                <p className="text-sm text-muted-foreground">{t.dataBackup}</p>
               </div>
               <div>
                 <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center mx-auto mb-3">
                   <Check className="w-6 h-6 text-white" />
                 </div>
-                <p className="text-sm text-muted-foreground">API kirish</p>
+                <p className="text-sm text-muted-foreground">{t.apiAccess}</p>
               </div>
             </div>
           </div>
@@ -196,4 +200,3 @@ const Pricing = ({ language }) => {
 };
 
 export default Pricing;
-

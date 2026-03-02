@@ -31,18 +31,18 @@ const DemoPreview = ({ language }) => {
   const slides = [
     {
       image: crmDashboard,
-      title: "Dashboard ko'rinishi",
-      description: "Asosiy statistikalar va tezkor ma'lumotlar bir joyda"
+      title: t.slideDashboardTitle,
+      description: t.slideDashboardDesc
     },
     {
       image: crmInterface,
-      title: "Mijozlar boshqaruvi",
-      description: "Mijozlar ro'yxati va ularning batafsil ma'lumotlari"
+      title: t.slideClientsTitle,
+      description: t.slideClientsDesc
     },
     {
       image: crmDashboard,
-      title: "Hisobotlar va tahlil",
-      description: "Biznes ko'rsatkichlari va tahliliy hisobotlar"
+      title: t.slideReportsTitle,
+      description: t.slideReportsDesc
     }
   ];
 
@@ -120,8 +120,9 @@ const DemoPreview = ({ language }) => {
                     src={slides[currentSlide].image}
                     alt={slides[currentSlide].title}
                     className="w-full h-full object-cover transition-opacity duration-500"
+                    loading="lazy"
                   />
-                  
+
                   {/* Play Button Overlay */}
                   <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
                     <button className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors">
@@ -139,13 +140,15 @@ const DemoPreview = ({ language }) => {
               {/* Navigation Arrows */}
               <button
                 onClick={prevSlide}
+                aria-label="Previous slide"
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/90 dark:bg-gray-800/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-colors"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
-              
+
               <button
                 onClick={nextSlide}
+                aria-label="Next slide"
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/90 dark:bg-gray-800/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-colors"
               >
                 <ChevronRight className="w-6 h-6" />
@@ -169,6 +172,7 @@ const DemoPreview = ({ language }) => {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
+                aria-label={`Slide ${index + 1}`}
                 className={`w-3 h-3 rounded-full transition-colors ${
                   index === currentSlide ? 'bg-primary' : 'bg-muted-foreground/30'
                 }`}
@@ -184,24 +188,24 @@ const DemoPreview = ({ language }) => {
               <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Monitor className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-foreground mb-2">Responsiv dizayn</h4>
-              <p className="text-muted-foreground">Barcha qurilmalarda mukammal ishlaydi</p>
+              <h4 className="text-lg font-semibold text-foreground mb-2">{t.responsiveDesign}</h4>
+              <p className="text-muted-foreground">{t.responsiveDesignDesc}</p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Play className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-foreground mb-2">Interaktiv demo</h4>
-              <p className="text-muted-foreground">Haqiqiy ma'lumotlar bilan sinab ko'ring</p>
+              <h4 className="text-lg font-semibold text-foreground mb-2">{t.interactiveDemo}</h4>
+              <p className="text-muted-foreground">{t.interactiveDemoDesc}</p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Smartphone className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-lg font-semibold text-foreground mb-2">Mobil optimizatsiya</h4>
-              <p className="text-muted-foreground">Har qanday joydan foydalaning</p>
+              <h4 className="text-lg font-semibold text-foreground mb-2">{t.mobileOptimization}</h4>
+              <p className="text-muted-foreground">{t.mobileOptimizationDesc}</p>
             </div>
           </div>
         </div>
@@ -211,4 +215,3 @@ const DemoPreview = ({ language }) => {
 };
 
 export default DemoPreview;
-

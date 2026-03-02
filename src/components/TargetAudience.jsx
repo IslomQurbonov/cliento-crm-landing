@@ -6,7 +6,6 @@ import {
   Car,
   UtensilsCrossed,
   Building2,
-  ArrowRight,
   Dumbbell,
   Plane,
   BookOpen,
@@ -75,36 +74,36 @@ const TargetAudience = ({ language }) => {
     },
     {
       icon: Dumbbell,
-      title: t.spaFitness || 'Spa va fitnes',
-      description: t.spaFitnessDesc || 'Abonement sotish, trener tayinlash va mijozlarni kuzatish uchun',
+      title: t.spaFitness,
+      description: t.spaFitnessDesc,
       gradient: 'from-teal-500 to-cyan-500',
       delay: '0.6s'
     },
     {
       icon: Plane,
-      title: t.travelAgencies || 'Turistik agentliklar',
-      description: t.travelAgenciesDesc || 'Tur paketlar, viza xizmatlari va mehmonxona bronlarini boshqarish uchun',
+      title: t.travelAgencies,
+      description: t.travelAgenciesDesc,
       gradient: 'from-sky-500 to-blue-500',
       delay: '0.7s'
     },
     {
       icon: BookOpen,
-      title: t.languageCenters || 'Til o\'quv markazlari',
-      description: t.languageCentersDesc || 'O\'quvchilarni ro\'yxatga olish, daraja aniqlash va kurslarni boshqarish uchun',
+      title: t.languageCenters,
+      description: t.languageCentersDesc,
       gradient: 'from-amber-500 to-orange-500',
       delay: '0.8s'
     },
     {
       icon: Speaker,
-      title: t.adAgencies || 'Reklama agentliklari',
-      description: t.adAgenciesDesc || 'Reklama kampaniyalari, mijoz loyihalari va byudjetlarni nazorat qilish uchun',
+      title: t.adAgencies,
+      description: t.adAgenciesDesc,
       gradient: 'from-red-500 to-pink-500',
       delay: '0.9s'
     },
     {
       icon: Camera,
-      title: t.photoEvent || 'Fotostudiya va event',
-      description: t.photoEventDesc || 'Fotosessiyalar, tadbirlarni rejalashtirish va buyurtmalarni kuzatish uchun',
+      title: t.photoEvent,
+      description: t.photoEventDesc,
       gradient: 'from-violet-500 to-purple-500',
       delay: '1.0s'
     },
@@ -144,13 +143,13 @@ const TargetAudience = ({ language }) => {
               >
                 {/* Background Gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${audience.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                
+
                 {/* Icon Container */}
                 <div className="relative mb-6">
                   <div className={`w-16 h-16 bg-gradient-to-br ${audience.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                     <IconComponent className="w-8 h-8 text-white" />
                   </div>
-                  
+
                   {/* Floating Dots */}
                   <div className="absolute -top-2 -right-2 w-4 h-4 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
                   <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-secondary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
@@ -161,20 +160,13 @@ const TargetAudience = ({ language }) => {
                   <h3 className="text-xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
                     {audience.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed mb-6">
+                  <p className="text-muted-foreground leading-relaxed">
                     {audience.description}
                   </p>
-                  
-                  {/* Learn More Link */}
-                  <div className="flex items-center text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-sm font-medium">Batafsil</span>
-                    <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
-                  </div>
                 </div>
 
                 {/* Decorative Elements */}
                 <div className="absolute top-4 right-4 w-20 h-20 border border-primary/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="absolute bottom-4 left-4 w-12 h-12 border border-secondary/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ transitionDelay: '0.2s' }}></div>
               </div>
             );
           })}
@@ -185,20 +177,20 @@ const TargetAudience = ({ language }) => {
           <div className="bg-gradient-to-r from-primary/5 to-purple-500/5 rounded-2xl p-8 border border-primary/10">
             <div className="grid md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">11+</div>
-                <div className="text-muted-foreground">Biznes turlari</div>
+                <div className="text-3xl font-bold text-primary mb-2">{t.businessTypes_count}</div>
+                <div className="text-muted-foreground">{t.businessTypes_label}</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">100%</div>
-                <div className="text-muted-foreground">Moslashuvchan</div>
+                <div className="text-3xl font-bold text-primary mb-2">{t.flexible}</div>
+                <div className="text-muted-foreground">{t.flexibleLabel}</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">24/7</div>
-                <div className="text-muted-foreground">Qo'llab-quvvatlash</div>
+                <div className="text-3xl font-bold text-primary mb-2">{t.support247}</div>
+                <div className="text-muted-foreground">{t.supportLabel}</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">∞</div>
-                <div className="text-muted-foreground">Imkoniyatlar</div>
+                <div className="text-3xl font-bold text-primary mb-2">{t.unlimitedCapabilities}</div>
+                <div className="text-muted-foreground">{t.capabilitiesLabel}</div>
               </div>
             </div>
           </div>
@@ -209,4 +201,3 @@ const TargetAudience = ({ language }) => {
 };
 
 export default TargetAudience;
-

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ArrowUp } from "lucide-react";
 import "./App.css";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -14,6 +15,7 @@ function App() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [language, setLanguage] = useState("uz");
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Check system preference for dark mode
   useEffect(() => {
@@ -35,8 +37,21 @@ function App() {
     }
   }, [isDarkMode]);
 
+  // Scroll to top button visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const openDemoModal = () => setIsDemoModalOpen(true);
   const closeDemoModal = () => setIsDemoModalOpen(false);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -50,20 +65,31 @@ function App() {
 
       <main>
         <Hero language={language} openDemoModal={openDemoModal} />
-        <Features language={language} />
+        <Features language={language} openDemoModal={openDemoModal} />
         <TargetAudience language={language} />
         <DemoPreview language={language} />
-        <Pricing language={language} />
+        <Pricing language={language} openDemoModal={openDemoModal} />
         <FAQ language={language} />
       </main>
 
-      <Footer language={language} setLanguage={setLanguage} />
+      <Footer language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} />
 
       <DemoModal
         isOpen={isDemoModalOpen}
         onClose={closeDemoModal}
         language={language}
       />
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          aria-label="Scroll to top"
+          className="fixed bottom-8 right-8 z-40 w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition-all duration-300 hover-lift"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
     </div>
   );
 }
