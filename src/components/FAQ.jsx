@@ -39,7 +39,7 @@ const FAQ = ({ language }) => {
     <section id="faq" ref={sectionRef} className="py-20 bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className={`text-center mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+        <div className={`text-center mb-16 ${isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'}`}>
           <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <HelpCircle className="w-8 h-8 text-primary" />
           </div>
@@ -56,7 +56,7 @@ const FAQ = ({ language }) => {
           {t.faqItems.map((item, index) => (
             <div
               key={index}
-              className={`mb-4 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+              className={`mb-4 ${isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'}`}
               style={{ animationDelay: `${0.1 * (index + 1)}s` }}
             >
               <div className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -94,7 +94,7 @@ const FAQ = ({ language }) => {
         </div>
 
         {/* Contact Support */}
-        <div className={`text-center mt-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.8s' }}>
+        <div className={`text-center mt-16 ${isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.8s' }}>
           <div className="bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-2xl p-8 border border-primary/20 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-foreground mb-4">
               {t.moreQuestions}
@@ -122,7 +122,7 @@ const FAQ = ({ language }) => {
         </div>
 
         {/* Quick Stats */}
-        <div className={`mt-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '1s' }}>
+        <div className={`mt-16 ${isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '1s' }}>
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-3xl font-bold text-primary mb-2">{t.avgResponseTime}</div>

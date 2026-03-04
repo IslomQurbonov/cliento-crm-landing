@@ -8,9 +8,9 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
   const t = translations[language];
 
   const languages = [
-    { code: 'uz', name: 'O\'zbekcha', flag: '🇺🇿' },
-    { code: 'ru', name: 'Русский', flag: '🇷🇺' },
-    { code: 'en', name: 'English', flag: '🇺🇸' }
+    { code: 'uz', name: "O'zbekcha", flagUrl: 'https://flagcdn.com/24x18/uz.png' },
+    { code: 'ru', name: 'Русский', flagUrl: 'https://flagcdn.com/24x18/ru.png' },
+    { code: 'en', name: 'English', flagUrl: 'https://flagcdn.com/24x18/us.png' }
   ];
 
   const scrollToSection = (sectionId) => {
@@ -22,8 +22,131 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
 
   return (
     <footer className="bg-card border-t border-border">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        {/* Mobile Layout */}
+        <div className="md:hidden space-y-8">
+          {/* Brand + Socials Row */}
+          <div className="flex items-center justify-between">
+            <img
+              src={isDarkMode ? logoDark : logoLight}
+              alt="Cliento"
+              className="h-9 w-auto"
+            />
+            <a
+              href="https://t.me/cliento_uz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
+              aria-label="Telegram"
+            >
+              <Send className="w-5 h-5" />
+            </a>
+          </div>
+
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {t.brandDescription}
+          </p>
+
+          {/* Navigation + Support in 2 columns */}
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-sm font-semibold text-foreground mb-3">{t.navigation}</h3>
+              <ul className="space-y-2">
+                <li>
+                  <button
+                    onClick={() => scrollToSection('features')}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  >
+                    {t.features}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollToSection('pricing')}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  >
+                    {t.pricing}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollToSection('faq')}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  >
+                    {t.faq}
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-foreground mb-3">{t.supportSection}</h3>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href="mailto:info@cliento.uz"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  >
+                    {t.contactSupport}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://t.me/cliento_support"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  >
+                    Telegram
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Contact Info */}
+          <div className="space-y-2">
+            <a href="mailto:info@cliento.uz" className="flex items-center space-x-3 text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Mail className="w-4 h-4 flex-shrink-0" />
+              <span>info@cliento.uz</span>
+            </a>
+            <a href="tel:+998901234567" className="flex items-center space-x-3 text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Phone className="w-4 h-4 flex-shrink-0" />
+              <span>+998 90 123 45 67</span>
+            </a>
+            <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+              <MapPin className="w-4 h-4 flex-shrink-0" />
+              <span>Toshkent, O'zbekiston</span>
+            </div>
+          </div>
+
+          {/* Language Switcher */}
+          <div>
+            <h4 className="text-sm font-medium text-foreground mb-3 flex items-center">
+              <Globe className="w-4 h-4 mr-2" />
+              {t.chooseLang}
+            </h4>
+            <div className="flex gap-2">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => setLanguage(lang.code)}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm transition-colors ${
+                    language === lang.code
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <img src={lang.flagUrl} alt={lang.name} className="w-5 h-3.5 object-cover rounded-sm" />
+                  <span>{lang.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:grid md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center">
@@ -56,7 +179,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               <li>
                 <button
                   onClick={() => scrollToSection('features')}
-                  className="text-muted-foreground hover:text-primary transition-colors"
+                  className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                 >
                   {t.features}
                 </button>
@@ -64,7 +187,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               <li>
                 <button
                   onClick={() => scrollToSection('pricing')}
-                  className="text-muted-foreground hover:text-primary transition-colors"
+                  className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                 >
                   {t.pricing}
                 </button>
@@ -72,7 +195,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               <li>
                 <button
                   onClick={() => scrollToSection('faq')}
-                  className="text-muted-foreground hover:text-primary transition-colors"
+                  className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                 >
                   {t.faq}
                 </button>
@@ -87,7 +210,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               <li>
                 <a
                   href="mailto:info@cliento.uz"
-                  className="text-muted-foreground hover:text-primary transition-colors"
+                  className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                 >
                   {t.contactSupport}
                 </a>
@@ -97,7 +220,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                   href="https://t.me/cliento_support"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
+                  className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                 >
                   Telegram
                 </a>
@@ -144,7 +267,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                         : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    <span>{lang.flag}</span>
+                    <img src={lang.flagUrl} alt={lang.name} className="w-5 h-3.5 object-cover rounded-sm" />
                     <span>{lang.name}</span>
                   </button>
                 ))}
@@ -154,12 +277,12 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-border mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-muted-foreground text-sm">
+        <div className="border-t border-border mt-8 md:mt-12 pt-6 md:pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
+            <div className="text-muted-foreground text-xs md:text-sm">
               &copy; {new Date().getFullYear()} Cliento CRM. {t.allRightsReserved}.
             </div>
-            <div className="flex space-x-6 text-sm">
+            <div className="flex space-x-6 text-xs md:text-sm">
               <span className="text-muted-foreground">
                 {t.privacy}
               </span>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ChevronRight, ChevronLeft, Loader2, CheckCircle, Copy, Check, ExternalLink } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, ChevronDown, Loader2, CheckCircle, Copy, Check, ExternalLink } from 'lucide-react';
 import { Button } from './ui/button';
 import { translations } from '../lib/translations';
 
@@ -53,6 +53,28 @@ const DemoModal = ({ isOpen, onClose, language }) => {
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
+  };
+
+  const formatPhoneUz = (value) => {
+    // Faqat raqamlarni olish
+    let digits = value.replace(/\D/g, '');
+
+    // 998 prefiksini olib tashlash (agar bor bo'lsa)
+    if (digits.startsWith('998')) {
+      digits = digits.slice(3);
+    }
+
+    // 9 raqamgacha cheklash (998 dan keyingi qism)
+    digits = digits.slice(0, 9);
+
+    // Format: +998 XX XXX XX XX
+    let result = '+998';
+    if (digits.length > 0) result += ' ' + digits.slice(0, 2);
+    if (digits.length > 2) result += ' ' + digits.slice(2, 5);
+    if (digits.length > 5) result += ' ' + digits.slice(5, 7);
+    if (digits.length > 7) result += ' ' + digits.slice(7, 9);
+
+    return result;
   };
 
   const handleInputChange = (field, value) => {
@@ -180,7 +202,7 @@ const DemoModal = ({ isOpen, onClose, language }) => {
           <button
             onClick={handleClose}
             aria-label={t.close}
-            className="w-10 h-10 rounded-lg hover:bg-muted transition-colors flex items-center justify-center"
+            className="w-10 h-10 rounded-lg hover:bg-muted transition-colors flex items-center justify-center cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -225,7 +247,7 @@ const DemoModal = ({ isOpen, onClose, language }) => {
                   <button
                     key={business.id}
                     onClick={() => setSelectedBusiness(business.id)}
-                    className={`p-4 rounded-xl border-2 transition-all duration-200 text-left hover:scale-105 ${
+                    className={`p-4 rounded-xl border-2 transition-all duration-200 text-left hover:scale-105 cursor-pointer ${
                       selectedBusiness === business.id
                         ? 'border-primary bg-primary/5'
                         : 'border-border hover:border-primary/50'
@@ -270,7 +292,10 @@ const DemoModal = ({ isOpen, onClose, language }) => {
                   <input
                     type="tel"
                     value={formData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    onChange={(e) => {
+                      const formatted = formatPhoneUz(e.target.value);
+                      handleInputChange('phone', formatted);
+                    }}
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background ${
                       fieldErrors.phone ? 'border-destructive' : 'border-border'
                     }`}
@@ -298,17 +323,20 @@ const DemoModal = ({ isOpen, onClose, language }) => {
                   <label className="block text-sm font-medium text-foreground mb-2">
                     {t.employeeCount}
                   </label>
-                  <select
-                    value={formData.employeeCount}
-                    onChange={(e) => handleInputChange('employeeCount', e.target.value)}
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background"
-                  >
-                    <option value="">{t.selectOption}</option>
-                    <option value="1-5">1-5 {t.people}</option>
-                    <option value="6-15">6-15 {t.people}</option>
-                    <option value="16-50">16-50 {t.people}</option>
-                    <option value="50+">50+ {t.people}</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={formData.employeeCount}
+                      onChange={(e) => handleInputChange('employeeCount', e.target.value)}
+                      className="w-full px-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-background appearance-none cursor-pointer pr-10"
+                    >
+                      <option value="">{t.selectOption}</option>
+                      <option value="1-5">1-5 {t.people}</option>
+                      <option value="6-15">6-15 {t.people}</option>
+                      <option value="16-50">16-50 {t.people}</option>
+                      <option value="50+">50+ {t.people}</option>
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                  </div>
                 </div>
               </div>
 
@@ -358,7 +386,7 @@ const DemoModal = ({ isOpen, onClose, language }) => {
                   </div>
                   <button
                     onClick={() => copyToClipboard(demoData.adminEmail, 'email')}
-                    className="ml-3 p-2 rounded-md hover:bg-muted transition-colors"
+                    className="ml-3 p-2 rounded-md hover:bg-muted transition-colors cursor-pointer"
                     title={t.demoCopied}
                   >
                     {copiedField === 'email' ? (
@@ -377,7 +405,7 @@ const DemoModal = ({ isOpen, onClose, language }) => {
                   </div>
                   <button
                     onClick={() => copyToClipboard(demoData.password, 'password')}
-                    className="ml-3 p-2 rounded-md hover:bg-muted transition-colors"
+                    className="ml-3 p-2 rounded-md hover:bg-muted transition-colors cursor-pointer"
                     title={t.demoCopied}
                   >
                     {copiedField === 'password' ? (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from './ui/button';
 import { translations } from '../lib/translations';
-import crmDashboard from '../assets/images/crm-dashboard.png';
+import dashboardDesktop from '../assets/images/Dashboard desktop.jpg';
 
 const Hero = ({ language, openDemoModal }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,7 +13,7 @@ const Hero = ({ language, openDemoModal }) => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-background to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-float"></div>
@@ -24,7 +24,7 @@ const Hero = ({ language, openDemoModal }) => {
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
-          <div className={`space-y-8 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+          <div className={`space-y-8 text-center lg:text-left ${isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'}`}>
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
                 {t.heroTitle}
@@ -34,11 +34,11 @@ const Hero = ({ language, openDemoModal }) => {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button
                 onClick={openDemoModal}
                 size="lg"
-                className="btn-primary text-lg px-8 py-4"
+                className="btn-primary text-lg px-8 py-4 h-12 md:h-14 cursor-pointer"
               >
                 {t.tryDemoNow}
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -47,7 +47,7 @@ const Hero = ({ language, openDemoModal }) => {
               <Button
                 variant="outline"
                 size="lg"
-                className="text-lg px-8 py-4 hover-lift"
+                className="text-lg px-8 py-4 h-12 md:h-14 hover-lift cursor-pointer"
                 onClick={() => document.getElementById('demo-preview')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <Play className="mr-2 w-5 h-5" />
@@ -56,29 +56,29 @@ const Hero = ({ language, openDemoModal }) => {
             </div>
 
             {/* Advantages instead of fake stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-border">
+            <div className="grid grid-cols-3 gap-4 md:gap-8 pt-8 border-t border-border">
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-primary">{t.heroStat1}</div>
-                <div className="text-sm text-muted-foreground">{t.heroStat1Desc}</div>
+                <div className="text-base md:text-2xl lg:text-3xl font-bold text-primary leading-tight">{t.heroStat1}</div>
+                <div className="text-xs md:text-sm text-muted-foreground mt-1">{t.heroStat1Desc}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-primary">{t.heroStat2}</div>
-                <div className="text-sm text-muted-foreground">{t.heroStat2Desc}</div>
+                <div className="text-base md:text-2xl lg:text-3xl font-bold text-primary leading-tight">{t.heroStat2}</div>
+                <div className="text-xs md:text-sm text-muted-foreground mt-1">{t.heroStat2Desc}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-primary">{t.heroStat3}</div>
-                <div className="text-sm text-muted-foreground">{t.heroStat3Desc}</div>
+                <div className="text-base md:text-2xl lg:text-3xl font-bold text-primary leading-tight">{t.heroStat3}</div>
+                <div className="text-xs md:text-sm text-muted-foreground mt-1">{t.heroStat3Desc}</div>
               </div>
             </div>
           </div>
 
           {/* Visual */}
-          <div className={`relative ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`}>
+          <div className={`relative ${isVisible ? 'opacity-0 animate-slide-in-right' : 'opacity-0'}`}>
             <div className="relative">
               {/* Main Dashboard Image */}
               <div className="relative z-10 transform lg:rotate-2 hover:rotate-0 transition-transform duration-500">
                 <img
-                  src={crmDashboard}
+                  src={dashboardDesktop}
                   alt="Cliento CRM Dashboard - mijozlar boshqaruv tizimi"
                   className="w-full h-auto rounded-2xl shadow-2xl hover-lift"
                   loading="lazy"
@@ -101,7 +101,7 @@ const Hero = ({ language, openDemoModal }) => {
 
             {/* Feature Badges */}
             <div className="absolute top-1/2 -left-8 transform -translate-y-1/2 z-20 hidden lg:block">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 animate-slide-in-left stagger-1">
+              <div className="bg-card dark:bg-gray-800 rounded-lg shadow-lg p-4 animate-slide-in-left stagger-1">
                 <div className="flex items-center space-x-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                   <span className="text-sm font-medium">{t.customerBase}</span>
@@ -110,7 +110,7 @@ const Hero = ({ language, openDemoModal }) => {
             </div>
 
             <div className="absolute bottom-1/4 -right-8 z-20 hidden lg:block">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 animate-slide-in-right stagger-2">
+              <div className="bg-card dark:bg-gray-800 rounded-lg shadow-lg p-4 animate-slide-in-right stagger-2">
                 <div className="flex items-center space-x-3">
                   <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                   <span className="text-sm font-medium">{t.automationBadge}</span>

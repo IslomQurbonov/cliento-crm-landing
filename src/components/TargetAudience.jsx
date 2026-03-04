@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import {
   Megaphone,
   Scissors,
@@ -16,7 +16,11 @@ import { translations } from '../lib/translations';
 
 const TargetAudience = ({ language }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
   const sectionRef = useRef(null);
+  const sliderRef = useRef(null);
+  const autoSlideRef = useRef(null);
+  const userScrollingRef = useRef(false);
   const t = translations[language];
 
   useEffect(() => {
@@ -116,11 +120,118 @@ const TargetAudience = ({ language }) => {
     }
   ];
 
+  const scrollToSlide = useCallback((index) => {
+    const slider = sliderRef.current;
+    if (!slider || !slider.children[index]) return;
+    const child = slider.children[index];
+    const scrollPos = child.offsetLeft - (slider.offsetWidth - child.offsetWidth) / 2;
+    slider.scrollTo({ left: scrollPos, behavior: 'smooth' });
+  }, []);
+
+  // Auto-slide for mobile
+  const startAutoSlide = useCallback(() => {
+    if (autoSlideRef.current) clearInterval(autoSlideRef.current);
+    autoSlideRef.current = setInterval(() => {
+      if (userScrollingRef.current) return;
+      setActiveSlide(prev => {
+        const next = (prev + 1) % audiences.length;
+        scrollToSlide(next);
+        return next;
+      });
+    }, 3500);
+  }, [audiences.length, scrollToSlide]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || window.innerWidth >= 768) return;
+    startAutoSlide();
+    return () => {
+      if (autoSlideRef.current) clearInterval(autoSlideRef.current);
+    };
+  }, [startAutoSlide]);
+
+  // Track scroll position for active dot
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    let scrollTimeout;
+    const handleScroll = () => {
+      userScrollingRef.current = true;
+      if (autoSlideRef.current) clearInterval(autoSlideRef.current);
+      clearTimeout(scrollTimeout);
+
+      const children = Array.from(slider.children);
+      const containerCenter = slider.scrollLeft + slider.offsetWidth / 2;
+      let closest = 0;
+      let minDist = Infinity;
+      children.forEach((child, i) => {
+        const childCenter = child.offsetLeft + child.offsetWidth / 2;
+        const dist = Math.abs(containerCenter - childCenter);
+        if (dist < minDist) {
+          minDist = dist;
+          closest = i;
+        }
+      });
+      setActiveSlide(closest);
+
+      scrollTimeout = setTimeout(() => {
+        userScrollingRef.current = false;
+        startAutoSlide();
+      }, 5000);
+    };
+
+    slider.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      slider.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, [startAutoSlide]);
+
+  const renderAudienceCard = (audience, index, isMobile = false) => {
+    const IconComponent = audience.icon;
+    return (
+      <div
+        key={index}
+        className={`group relative bg-card border border-border rounded-2xl p-6 md:p-8 ${!isMobile ? 'hover-lift' : ''} transition-all duration-500 overflow-hidden ${
+          isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'
+        } ${isMobile ? 'h-full' : ''}`}
+        style={{ animationDelay: audience.delay }}
+      >
+        {/* Background Gradient */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${audience.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+
+        {/* Icon Container */}
+        <div className="relative mb-4 md:mb-6">
+          <div className={`w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br ${audience.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+            <IconComponent className="w-7 h-7 md:w-8 md:h-8 text-white" />
+          </div>
+
+          {/* Floating Dots */}
+          <div className="absolute -top-2 -right-2 w-4 h-4 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+          <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-secondary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative">
+          <h3 className="text-lg md:text-xl font-bold text-foreground mb-3 md:mb-4 group-hover:text-primary transition-colors duration-300">
+            {audience.title}
+          </h3>
+          <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+            {audience.description}
+          </p>
+        </div>
+
+        {/* Decorative Elements */}
+        <div className="absolute top-4 right-4 w-20 h-20 border border-primary/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      </div>
+    );
+  };
+
   return (
     <section ref={sectionRef} className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className={`text-center mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+        <div className={`text-center mb-12 md:mb-16 ${isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'}`}>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             {t.targetTitle}
           </h2>
@@ -129,68 +240,64 @@ const TargetAudience = ({ language }) => {
           </p>
         </div>
 
-        {/* Audience Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {audiences.map((audience, index) => {
-            const IconComponent = audience.icon;
-            return (
+        {/* Mobile Slider */}
+        <div className="md:hidden">
+          <div
+            ref={sliderRef}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 no-scrollbar"
+            style={{ paddingLeft: '8%', paddingRight: '8%' }}
+          >
+            {audiences.map((audience, index) => (
               <div
                 key={index}
-                className={`group relative bg-card border border-border rounded-2xl p-8 hover-lift transition-all duration-500 overflow-hidden ${
-                  isVisible ? 'animate-fade-in-up' : 'opacity-0'
-                }`}
-                style={{ animationDelay: audience.delay }}
+                className="snap-center flex-shrink-0 w-[78%]"
               >
-                {/* Background Gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${audience.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-
-                {/* Icon Container */}
-                <div className="relative mb-6">
-                  <div className={`w-16 h-16 bg-gradient-to-br ${audience.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className="w-8 h-8 text-white" />
-                  </div>
-
-                  {/* Floating Dots */}
-                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
-                  <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-secondary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                </div>
-
-                {/* Content */}
-                <div className="relative">
-                  <h3 className="text-xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
-                    {audience.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {audience.description}
-                  </p>
-                </div>
-
-                {/* Decorative Elements */}
-                <div className="absolute top-4 right-4 w-20 h-20 border border-primary/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                {renderAudienceCard(audience, index, true)}
               </div>
-            );
-          })}
+            ))}
+          </div>
+          {/* Dots */}
+          <div className="flex justify-center gap-1 mt-4">
+            {audiences.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setActiveSlide(i);
+                  scrollToSlide(i);
+                }}
+                aria-label={`Slide ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === activeSlide ? 'w-5 bg-primary' : 'w-1.5 bg-muted-foreground/30'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {audiences.map((audience, index) => renderAudienceCard(audience, index))}
         </div>
 
         {/* Bottom Stats */}
-        <div className={`mt-20 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.8s' }}>
-          <div className="bg-gradient-to-r from-primary/5 to-purple-500/5 rounded-2xl p-8 border border-primary/10">
-            <div className="grid md:grid-cols-4 gap-8 text-center">
+        <div className={`mt-16 md:mt-20 ${isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.8s' }}>
+          <div className="bg-gradient-to-r from-primary/5 to-purple-500/5 rounded-2xl p-6 md:p-8 border border-primary/10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center">
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">{t.businessTypes_count}</div>
-                <div className="text-muted-foreground">{t.businessTypes_label}</div>
+                <div className="text-xl md:text-3xl font-bold text-primary mb-1 md:mb-2">{t.businessTypes_count}</div>
+                <div className="text-xs md:text-sm text-muted-foreground">{t.businessTypes_label}</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">{t.flexible}</div>
-                <div className="text-muted-foreground">{t.flexibleLabel}</div>
+                <div className="text-xl md:text-3xl font-bold text-primary mb-1 md:mb-2 break-words">{t.flexible}</div>
+                <div className="text-xs md:text-sm text-muted-foreground">{t.flexibleLabel}</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">{t.support247}</div>
-                <div className="text-muted-foreground">{t.supportLabel}</div>
+                <div className="text-xl md:text-3xl font-bold text-primary mb-1 md:mb-2">{t.support247}</div>
+                <div className="text-xs md:text-sm text-muted-foreground">{t.supportLabel}</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">{t.unlimitedCapabilities}</div>
-                <div className="text-muted-foreground">{t.capabilitiesLabel}</div>
+                <div className="text-xl md:text-3xl font-bold text-primary mb-1 md:mb-2">{t.unlimitedCapabilities}</div>
+                <div className="text-sm text-muted-foreground">{t.capabilitiesLabel}</div>
               </div>
             </div>
           </div>
