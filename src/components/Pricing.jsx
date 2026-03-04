@@ -4,11 +4,11 @@ import {
   X,
   Star,
   Zap,
-  Loader2,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { CLoader } from "./ui/c-loader";
 import { translations } from "../lib/translations";
 import { fetchActivePlans } from "../lib/api";
 
@@ -352,7 +352,7 @@ const Pricing = ({ language, openDemoModal }) => {
         {/* Loading */}
         {loading && (
           <div className="flex justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <CLoader size={64} />
           </div>
         )}
 

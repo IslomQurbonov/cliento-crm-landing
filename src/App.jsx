@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
 import "./App.css";
+import { CLoader } from "./components/ui/c-loader";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
@@ -16,6 +17,7 @@ function App() {
   const [language, setLanguage] = useState("uz");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Check system preference for dark mode
   useEffect(() => {
@@ -37,6 +39,12 @@ function App() {
     }
   }, [isDarkMode]);
 
+  // Initial page load
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Scroll to top button visibility
   useEffect(() => {
     const handleScroll = () => {
@@ -52,6 +60,14 @@ function App() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <CLoader size={72} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
