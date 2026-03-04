@@ -3,7 +3,6 @@ import {
   BarChart3,
   Settings,
   Bell,
-  MessageCircle,
   Zap,
   Database,
   CheckCircle
@@ -66,18 +65,11 @@ const Features = ({ language, openDemoModal }) => {
       delay: '0.4s'
     },
     {
-      icon: MessageCircle,
-      title: t.telegramIntegration,
-      description: t.telegramIntegrationDesc,
-      color: 'bg-cyan-500',
-      delay: '0.5s'
-    },
-    {
       icon: Zap,
       title: t.automation,
       description: t.automationDesc,
       color: 'bg-pink-500',
-      delay: '0.6s'
+      delay: '0.5s'
     }
   ];
 

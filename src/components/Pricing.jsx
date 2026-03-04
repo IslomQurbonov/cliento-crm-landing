@@ -1,43 +1,42 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { Check, X, Star, Zap, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from './ui/button';
-import { translations } from '../lib/translations';
-import { fetchActivePlans } from '../lib/api';
+import React, { useEffect, useRef, useState, useMemo } from "react";
+import {
+  Check,
+  X,
+  Star,
+  Zap,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { Button } from "./ui/button";
+import { translations } from "../lib/translations";
+import { fetchActivePlans } from "../lib/api";
 
 // Feature limit → human-readable label per language
 const featureLabels = {
   uz: {
-    max_users: (v) => v === -1 ? "Cheksiz foydalanuvchilar" : `${v} tagacha foydalanuvchi`,
-    max_clients: (v) => v === -1 ? "Cheksiz mijozlar" : `${v} tagacha mijoz`,
-    telegram_bot: () => "Telegram integratsiyasi",
-    instagram_bot: () => "Instagram integratsiyasi",
-    whatsapp_bot: () => "WhatsApp integratsiyasi",
+    max_users: (v) =>
+      v === -1 ? "Cheksiz foydalanuvchilar" : `${v} tagacha foydalanuvchi`,
+    max_clients: (v) => (v === -1 ? "Cheksiz mijozlar" : `${v} tagacha mijoz`),
     export_data: () => "Ma'lumotlarni eksport",
-    api_access: () => "API kirish",
     custom_fields: () => "Maxsus maydonlar",
     advanced_analytics: () => "Kengaytirilgan analitika",
     priority_support: () => "Shaxsiy qo'llab-quvvatlash",
   },
   ru: {
-    max_users: (v) => v === -1 ? "Неограниченные пользователи" : `До ${v} пользователей`,
-    max_clients: (v) => v === -1 ? "Неограниченные клиенты" : `До ${v} клиентов`,
-    telegram_bot: () => "Интеграция с Telegram",
-    instagram_bot: () => "Интеграция с Instagram",
-    whatsapp_bot: () => "Интеграция с WhatsApp",
+    max_users: (v) =>
+      v === -1 ? "Неограниченные пользователи" : `До ${v} пользователей`,
+    max_clients: (v) =>
+      v === -1 ? "Неограниченные клиенты" : `До ${v} клиентов`,
     export_data: () => "Экспорт данных",
-    api_access: () => "API доступ",
     custom_fields: () => "Настраиваемые поля",
     advanced_analytics: () => "Расширенная аналитика",
     priority_support: () => "Персональная поддержка",
   },
   en: {
-    max_users: (v) => v === -1 ? "Unlimited users" : `Up to ${v} users`,
-    max_clients: (v) => v === -1 ? "Unlimited clients" : `Up to ${v} clients`,
-    telegram_bot: () => "Telegram integration",
-    instagram_bot: () => "Instagram integration",
-    whatsapp_bot: () => "WhatsApp integration",
+    max_users: (v) => (v === -1 ? "Unlimited users" : `Up to ${v} users`),
+    max_clients: (v) => (v === -1 ? "Unlimited clients" : `Up to ${v} clients`),
     export_data: () => "Data export",
-    api_access: () => "API access",
     custom_fields: () => "Custom fields",
     advanced_analytics: () => "Advanced analytics",
     priority_support: () => "Priority support",
@@ -45,15 +44,18 @@ const featureLabels = {
 };
 
 const featureOrder = [
-  'max_users', 'max_clients', 'telegram_bot', 'instagram_bot',
-  'whatsapp_bot', 'export_data', 'api_access', 'custom_fields',
-  'advanced_analytics', 'priority_support',
+  "max_users",
+  "max_clients",
+  "export_data",
+  "custom_fields",
+  "advanced_analytics",
+  "priority_support",
 ];
 
 function formatPrice(price, currency) {
-  const formatted = Math.round(price).toLocaleString('uz-UZ');
-  if (currency === 'UZS') return `${formatted} so'm`;
-  if (currency === 'USD') return `$${formatted}`;
+  const formatted = Math.round(price).toLocaleString("uz-UZ");
+  if (currency === "UZS") return `${formatted} so'm`;
+  if (currency === "USD") return `$${formatted}`;
   return `${formatted} ${currency}`;
 }
 
@@ -91,8 +93,8 @@ const PlanCard = ({ plan, billingCycle, t, openDemoModal, isActive }) => {
     <div
       className={`relative bg-card border-2 rounded-2xl p-6 md:p-8 transition-all duration-300 h-full flex flex-col ${
         isPopular
-          ? 'border-primary shadow-lg shadow-primary/20 md:scale-105 md:z-10'
-          : 'border-border'
+          ? "border-primary shadow-lg shadow-primary/20 md:scale-105 md:z-10"
+          : "border-border"
       }`}
     >
       {/* Popular Badge */}
@@ -107,10 +109,12 @@ const PlanCard = ({ plan, billingCycle, t, openDemoModal, isActive }) => {
 
       {/* Plan Header */}
       <div className="text-center mb-6">
-        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">{plan.name}</h3>
+        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">
+          {plan.name}
+        </h3>
         <div className="mb-2">
           <span className="text-3xl md:text-4xl font-bold text-foreground">
-            {billingCycle === 'monthly' ? plan.monthlyPrice : plan.yearlyPrice}
+            {billingCycle === "monthly" ? plan.monthlyPrice : plan.yearlyPrice}
           </span>
         </div>
         <p className="text-sm text-muted-foreground">
@@ -127,7 +131,9 @@ const PlanCard = ({ plan, billingCycle, t, openDemoModal, isActive }) => {
             <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
               <Check className="w-3 h-3 text-white" />
             </div>
-            <span className="text-sm md:text-base text-foreground">{feature}</span>
+            <span className="text-sm md:text-base text-foreground">
+              {feature}
+            </span>
           </div>
         ))}
       </div>
@@ -136,11 +142,16 @@ const PlanCard = ({ plan, billingCycle, t, openDemoModal, isActive }) => {
       {plan.disabled.length > 0 && (
         <div className="space-y-2.5 mb-6 pt-2 border-t border-border/50">
           {plan.disabled.map((feature, i) => (
-            <div key={`d-${i}`} className="flex items-start space-x-3 opacity-40">
+            <div
+              key={`d-${i}`}
+              className="flex items-start space-x-3 opacity-40"
+            >
               <div className="w-5 h-5 bg-muted-foreground/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                 <X className="w-3 h-3 text-muted-foreground" />
               </div>
-              <span className="text-sm md:text-base text-muted-foreground line-through">{feature}</span>
+              <span className="text-sm md:text-base text-muted-foreground line-through">
+                {feature}
+              </span>
             </div>
           ))}
         </div>
@@ -153,7 +164,9 @@ const PlanCard = ({ plan, billingCycle, t, openDemoModal, isActive }) => {
       <Button
         onClick={openDemoModal}
         className={`cursor-pointer w-full py-3 mt-auto ${
-          isPopular ? 'btn-primary' : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+          isPopular
+            ? "btn-primary"
+            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
         }`}
       >
         {isPopular && <Zap className="w-4 h-4 mr-2" />}
@@ -170,19 +183,32 @@ const PlanCard = ({ plan, billingCycle, t, openDemoModal, isActive }) => {
 
 const Pricing = ({ language, openDemoModal }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [billingCycle, setBillingCycle] = useState("monthly");
   const [apiPlans, setApiPlans] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(1); // Start on popular/middle
+  const [cardCount, setCardCount] = useState(3); // Cards visible: 1 mobile, 2 tablet, 3 desktop
   const sectionRef = useRef(null);
   const t = translations[language];
+
+  // Responsive card count
+  useEffect(() => {
+    const updateCardCount = () => {
+      if (window.innerWidth < 768) setCardCount(1);
+      else if (window.innerWidth < 1024) setCardCount(2);
+      else setCardCount(3);
+    };
+    updateCardCount();
+    window.addEventListener("resize", updateCardCount);
+    return () => window.removeEventListener("resize", updateCardCount);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) setIsVisible(true);
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
@@ -211,29 +237,44 @@ const Pricing = ({ language, openDemoModal }) => {
   // Fallback static plans
   const staticPlans = [
     {
-      name: t.basic, monthlyPrice: t.basicPrice, yearlyPrice: t.basicYearlyPrice,
-      enabled: t.basicFeatures, disabled: [],
+      name: t.basic,
+      monthlyPrice: t.basicPrice,
+      yearlyPrice: t.basicYearlyPrice,
+      enabled: t.basicFeatures,
+      disabled: [],
       popular: false,
     },
     {
-      name: t.standard, monthlyPrice: t.standardPrice, yearlyPrice: t.standardYearlyPrice,
-      enabled: t.standardFeatures, disabled: [],
+      name: t.standard,
+      monthlyPrice: t.standardPrice,
+      yearlyPrice: t.standardYearlyPrice,
+      enabled: t.standardFeatures,
+      disabled: [],
       popular: true,
     },
     {
-      name: t.pro, monthlyPrice: t.proPrice, yearlyPrice: t.proYearlyPrice,
-      enabled: t.proFeatures, disabled: [],
+      name: t.pro,
+      monthlyPrice: t.proPrice,
+      yearlyPrice: t.proYearlyPrice,
+      enabled: t.proFeatures,
+      disabled: [],
       popular: false,
     },
   ];
 
   const plans = apiPlans
     ? apiPlans.map((plan) => {
-        const { enabled, disabled } = buildFeatureList(plan.limits, allFeatureKeys, language);
+        const { enabled, disabled } = buildFeatureList(
+          plan.limits,
+          allFeatureKeys,
+          language,
+        );
         return {
           name: plan.name,
-          monthlyPrice: formatPrice(plan.price, plan.currency) + '/oy',
-          yearlyPrice: formatPrice(plan.price * 12 * YEARLY_DISCOUNT, plan.currency) + '/yil',
+          monthlyPrice: formatPrice(plan.price, plan.currency) + "/oy",
+          yearlyPrice:
+            formatPrice(plan.price * 12 * YEARLY_DISCOUNT, plan.currency) +
+            "/yil",
           enabled,
           disabled,
           popular: plan.isPopular,
@@ -248,7 +289,9 @@ const Pricing = ({ language, openDemoModal }) => {
 
   // Touch/swipe handling
   const touchStartX = useRef(0);
-  const handleTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
   const handleTouchEnd = (e) => {
     const diff = touchStartX.current - e.changedTouches[0].clientX;
     if (diff > 50) goTo(activeIndex + 1);
@@ -259,7 +302,9 @@ const Pricing = ({ language, openDemoModal }) => {
     <section id="pricing" ref={sectionRef} className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className={`text-center mb-16 ${isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'}`}>
+        <div
+          className={`text-center mb-16 ${isVisible ? "opacity-0 animate-fade-in-up" : "opacity-0"}`}
+        >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             {t.pricingTitle}
           </h2>
@@ -269,24 +314,34 @@ const Pricing = ({ language, openDemoModal }) => {
 
           {/* Billing Toggle */}
           <div className="flex items-center justify-center space-x-4">
-            <span className={`text-sm ${billingCycle === 'monthly' ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
+            <span
+              className={`text-sm ${billingCycle === "monthly" ? "text-foreground font-medium" : "text-muted-foreground"}`}
+            >
               {t.monthly}
             </span>
             <button
-              onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+              onClick={() =>
+                setBillingCycle(
+                  billingCycle === "monthly" ? "yearly" : "monthly",
+                )
+              }
               aria-label="Toggle billing cycle"
               className={`cursor-pointer relative w-14 h-7 rounded-full transition-colors ${
-                billingCycle === 'yearly' ? 'bg-primary' : 'bg-muted'
+                billingCycle === "yearly" ? "bg-primary" : "bg-muted"
               }`}
             >
-              <div className={`absolute top-1 w-5 h-5 bg-card rounded-full transition-transform ${
-                billingCycle === 'yearly' ? 'translate-x-8' : 'translate-x-1'
-              }`}></div>
+              <div
+                className={`absolute top-1 w-5 h-5 bg-card rounded-full transition-transform ${
+                  billingCycle === "yearly" ? "translate-x-8" : "translate-x-1"
+                }`}
+              ></div>
             </button>
-            <span className={`text-sm ${billingCycle === 'yearly' ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
+            <span
+              className={`text-sm ${billingCycle === "yearly" ? "text-foreground font-medium" : "text-muted-foreground"}`}
+            >
               {t.yearly}
             </span>
-            {billingCycle === 'yearly' && (
+            {billingCycle === "yearly" && (
               <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
                 {t.savePercent}
               </span>
@@ -303,14 +358,19 @@ const Pricing = ({ language, openDemoModal }) => {
 
         {/* Plans — Slider with peek on all screens */}
         {!loading && (
-          <div className={`${isVisible ? 'opacity-0 animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+          <div
+            className={`${isVisible ? "opacity-0 animate-fade-in-up" : "opacity-0"}`}
+            style={{ animationDelay: "0.2s" }}
+          >
             <div className="relative max-w-6xl mx-auto">
               {/* Left Arrow */}
               <button
                 onClick={() => goTo(activeIndex - 1)}
                 disabled={activeIndex === 0}
                 className={`cursor-pointer absolute -left-2 md:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-card border border-border shadow-md flex items-center justify-center transition-opacity ${
-                  activeIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-muted'
+                  activeIndex === 0
+                    ? "opacity-30 cursor-not-allowed"
+                    : "hover:bg-muted"
                 }`}
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -321,7 +381,9 @@ const Pricing = ({ language, openDemoModal }) => {
                 onClick={() => goTo(activeIndex + 1)}
                 disabled={activeIndex === plans.length - 1}
                 className={`cursor-pointer absolute -right-2 md:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-card border border-border shadow-md flex items-center justify-center transition-opacity ${
-                  activeIndex === plans.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-muted'
+                  activeIndex === plans.length - 1
+                    ? "opacity-30 cursor-not-allowed"
+                    : "hover:bg-muted"
                 }`}
               >
                 <ChevronRight className="w-5 h-5" />
@@ -333,9 +395,10 @@ const Pricing = ({ language, openDemoModal }) => {
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
               >
-                <div className="flex transition-transform duration-500 ease-in-out items-stretch pt-8 pb-4"
+                <div
+                  className="flex transition-transform duration-500 ease-in-out items-stretch pt-8 pb-4"
                   style={{
-                    transform: `translateX(calc(-${activeIndex} * (100% / 3) + (100% / 3)))`,
+                    transform: `translateX(calc(-${activeIndex} * (100% / ${cardCount}) + ${cardCount > 1 ? `(100% / ${cardCount})` : "0%"}))`,
                   }}
                 >
                   {plans.map((plan, index) => {
@@ -344,14 +407,12 @@ const Pricing = ({ language, openDemoModal }) => {
                       <div
                         key={index}
                         className="flex-shrink-0 px-2 md:px-3 transition-all duration-500 ease-in-out"
-                        style={{ width: `${100 / 3}%` }}
+                        style={{ width: `${100 / cardCount}%` }}
                       >
                         <div
                           className="transition-all duration-500 ease-in-out h-full"
                           style={{
-                            transform: isCenter ? 'scale(1.05)' : 'scale(0.92)',
-                            opacity: isCenter ? 1 : 0.55,
-                            filter: isCenter ? 'none' : 'blur(0.5px)',
+                            transform: isCenter ? "scale(1.03)" : "scale(0.97)",
                           }}
                         >
                           <PlanCard
@@ -378,8 +439,8 @@ const Pricing = ({ language, openDemoModal }) => {
                   aria-label={plan.name}
                   className={`cursor-pointer transition-all duration-300 rounded-full ${
                     index === activeIndex
-                      ? 'w-8 h-3 bg-primary'
-                      : 'w-3 h-3 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                      ? "w-8 h-3 bg-primary"
+                      : "w-3 h-3 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                   }`}
                 />
               ))}

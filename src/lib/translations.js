@@ -50,10 +50,6 @@ export const translations = {
     remindersDesc:
       "Mijozlar bilan bog'liq vazifalar va uchrashuvlar uchun eslatmalar yaratish",
 
-    telegramIntegration: "Telegram integratsiyasi",
-    telegramIntegrationDesc:
-      "CRM tizimini Telegram messenjeri bilan bog'lash imkoniyati",
-
     automation: "Avtomatlashtirish",
     automationDesc: "Takrorlanadigan jarayonlarni avtomatlashtirish vositalari",
 
@@ -165,7 +161,6 @@ export const translations = {
     standardFeatures: [
       "15 tagacha foydalanuvchi",
       "5000 tagacha mijoz",
-      "Telegram integratsiyasi",
       "Avtomatlashtirish",
       "Hisobotlar",
     ],
@@ -349,10 +344,6 @@ export const translations = {
     remindersDesc:
       "Создание напоминаний для задач и встреч, связанных с клиентами",
 
-    telegramIntegration: "Интеграция с Telegram",
-    telegramIntegrationDesc:
-      "Возможность связать CRM систему с мессенджером Telegram",
-
     automation: "Автоматизация",
     automationDesc: "Инструменты для автоматизации повторяющихся процессов",
 
@@ -462,7 +453,6 @@ export const translations = {
     standardFeatures: [
       "До 15 пользователей",
       "До 5000 клиентов",
-      "Интеграция с Telegram",
       "Автоматизация",
       "Отчеты",
     ],
@@ -644,10 +634,6 @@ export const translations = {
     remindersDesc:
       "Create reminders for tasks and meetings related to customers",
 
-    telegramIntegration: "Telegram Integration",
-    telegramIntegrationDesc:
-      "Ability to connect CRM system with Telegram messenger",
-
     automation: "Automation",
     automationDesc: "Tools for automating repetitive processes",
 
@@ -755,7 +741,6 @@ export const translations = {
     standardFeatures: [
       "Up to 15 users",
       "Up to 5000 customers",
-      "Telegram integration",
       "Automation",
       "Reports",
     ],
