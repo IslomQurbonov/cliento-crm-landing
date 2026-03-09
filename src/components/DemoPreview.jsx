@@ -2,17 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Play, ChevronLeft, ChevronRight, Users, Smartphone, Tablet, Rocket, Monitor } from 'lucide-react';
 import { translations } from '../lib/translations';
 // Dashboard screenshots
-import dashboardDesktop from '../assets/images/Dashboard desktop.jpg';
-import dashboardTablet from '../assets/images/Dashboard Tablet.jpg';
-import dashboardMobile from '../assets/images/Dashboard Mobile.jpg';
+import dashboardDesktop from '../assets/images/Dashboard desktop.webp';
+import dashboardTablet from '../assets/images/Dashboard Tablet.webp';
+import dashboardMobile from '../assets/images/Dashboard Mobile.webp';
 // Lead screenshots
-import leadDesktop from '../assets/images/Lead desktop.jpg';
-import leadTablet from '../assets/images/Lead tablet.jpg';
-import leadMobile from '../assets/images/Lead mobile.jpg';
+import leadDesktop from '../assets/images/Lead desktop.webp';
+import leadTablet from '../assets/images/Lead tablet.webp';
+import leadMobile from '../assets/images/Lead mobile.webp';
 // Task screenshots
-import taskDesktop from '../assets/images/Task desktop.jpg';
-import taskTablet from '../assets/images/Task tablet.jpg';
-import taskMobile from '../assets/images/Task mobile.jpg';
+import taskDesktop from '../assets/images/Task desktop.webp';
+import taskTablet from '../assets/images/Task tablet.webp';
+import taskMobile from '../assets/images/Task mobile.webp';
 
 const DemoPreview = ({ language }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -132,7 +132,10 @@ const DemoPreview = ({ language }) => {
                     src={slides[currentSlide].images[deviceView]}
                     alt={slides[currentSlide].title}
                     className="w-full h-auto transition-opacity duration-500"
+                    width={deviceView === 'mobile' ? 768 : 1536}
+                    height={deviceView === 'mobile' ? 1376 : deviceView === 'tablet' ? 1024 : 768}
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
 

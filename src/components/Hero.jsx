@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from './ui/button';
 import { translations } from '../lib/translations';
-import dashboardDesktop from '../assets/images/Dashboard desktop.jpg';
+import dashboardDesktop from '../assets/images/Dashboard desktop.webp';
 
 const Hero = ({ language, openDemoModal }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -81,7 +81,10 @@ const Hero = ({ language, openDemoModal }) => {
                   src={dashboardDesktop}
                   alt="Cliento CRM Dashboard - mijozlar boshqaruv tizimi"
                   className="w-full h-auto rounded-2xl shadow-2xl hover-lift"
-                  loading="lazy"
+                  width={1536}
+                  height={1024}
+                  fetchPriority="high"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
               </div>

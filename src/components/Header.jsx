@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon, Globe } from 'lucide-react';
 import { Button } from './ui/button';
 import { translations } from '../lib/translations';
-import logoDark from '../assets/images/logo-dark.png';
-import logoLight from '../assets/images/logo-light.png';
+import logoDark from '../assets/images/logo-dark.webp';
+import logoLight from '../assets/images/logo-light.webp';
 
 const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModal }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,11 +12,17 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
   const t = translations[language];
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -29,9 +35,9 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
   };
 
   const languages = [
-    { code: 'uz', name: 'O\'zbekcha', flagUrl: 'https://flagcdn.com/24x18/uz.png' },
-    { code: 'ru', name: 'Русский', flagUrl: 'https://flagcdn.com/24x18/ru.png' },
-    { code: 'en', name: 'English', flagUrl: 'https://flagcdn.com/24x18/us.png' }
+    { code: 'uz', name: "O'zbekcha", flag: '\u{1F1FA}\u{1F1FF}' },
+    { code: 'ru', name: '\u0420\u0443\u0441\u0441\u043A\u0438\u0439', flag: '\u{1F1F7}\u{1F1FA}' },
+    { code: 'en', name: 'English', flag: '\u{1F1FA}\u{1F1F8}' }
   ];
 
   return (
@@ -46,6 +52,8 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
               src={isDarkMode ? logoDark : logoLight}
               alt="Cliento"
               className="h-[45px] w-auto"
+              width={160}
+              height={64}
             />
           </div>
 
@@ -82,7 +90,7 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
                 className="cursor-pointer flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-muted transition-colors"
               >
                 <Globe className="w-4 h-4" />
-                <img src={languages.find(l => l.code === language)?.flagUrl} alt="" className="w-6 h-4 object-cover rounded-sm" />
+                <span className="text-base leading-none">{languages.find(l => l.code === language)?.flag}</span>
               </button>
               {isLangOpen && (
                 <div className="absolute top-full right-0 mt-2 min-w-[160px] bg-popover border border-border rounded-lg shadow-lg overflow-hidden">
@@ -97,7 +105,7 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
                         language === lang.code ? 'bg-muted' : ''
                       }`}
                     >
-                      <img src={lang.flagUrl} alt={lang.name} className="w-6 h-4 object-cover rounded-sm" />
+                      <span className="text-base leading-none">{lang.flag}</span>
                       <span>{lang.name}</span>
                     </button>
                   ))}
@@ -163,7 +171,7 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
                       language === lang.code ? 'bg-primary text-primary-foreground' : 'bg-muted hover:bg-muted/80'
                     }`}
                   >
-                    <img src={lang.flagUrl} alt={lang.name} className="w-6 h-4 object-cover rounded-sm" />
+                    <span className="text-base leading-none">{lang.flag}</span>
                     <span>{lang.name}</span>
                   </button>
                 ))}

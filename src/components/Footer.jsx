@@ -1,16 +1,16 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Globe, Send } from 'lucide-react';
 import { translations } from '../lib/translations';
-import logoDark from '../assets/images/logo-dark.png';
-import logoLight from '../assets/images/logo-light.png';
+import logoDark from '../assets/images/logo-dark.webp';
+import logoLight from '../assets/images/logo-light.webp';
 
 const Footer = ({ language, setLanguage, isDarkMode }) => {
   const t = translations[language];
 
   const languages = [
-    { code: 'uz', name: "O'zbekcha", flagUrl: 'https://flagcdn.com/24x18/uz.png' },
-    { code: 'ru', name: 'Русский', flagUrl: 'https://flagcdn.com/24x18/ru.png' },
-    { code: 'en', name: 'English', flagUrl: 'https://flagcdn.com/24x18/us.png' }
+    { code: 'uz', name: "O'zbekcha", flag: '\u{1F1FA}\u{1F1FF}' },
+    { code: 'ru', name: '\u0420\u0443\u0441\u0441\u043A\u0438\u0439', flag: '\u{1F1F7}\u{1F1FA}' },
+    { code: 'en', name: 'English', flag: '\u{1F1FA}\u{1F1F8}' }
   ];
 
   const scrollToSection = (sectionId) => {
@@ -31,6 +31,8 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               src={isDarkMode ? logoDark : logoLight}
               alt="Cliento"
               className="h-9 w-auto"
+              width={160}
+              height={64}
             />
             <a
               href="https://t.me/cliento_uz"
@@ -137,7 +139,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                       : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
                   }`}
                 >
-                  <img src={lang.flagUrl} alt={lang.name} className="w-5 h-3.5 object-cover rounded-sm" />
+                  <span className="text-base leading-none">{lang.flag}</span>
                   <span>{lang.name}</span>
                 </button>
               ))}
@@ -154,6 +156,8 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                 src={isDarkMode ? logoDark : logoLight}
                 alt="Cliento"
                 className="h-10 w-auto"
+                width={160}
+                height={64}
               />
             </div>
             <p className="text-muted-foreground leading-relaxed">
@@ -267,7 +271,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                         : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
                     }`}
                   >
-                    <img src={lang.flagUrl} alt={lang.name} className="w-5 h-3.5 object-cover rounded-sm" />
+                    <span className="text-base leading-none">{lang.flag}</span>
                     <span>{lang.name}</span>
                   </button>
                 ))}

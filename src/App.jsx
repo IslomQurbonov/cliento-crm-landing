@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { ArrowUp } from "lucide-react";
 import "./App.css";
-import { CLoader } from "./components/ui/c-loader";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import Features from "./components/Features";
-import TargetAudience from "./components/TargetAudience";
-import DemoPreview from "./components/DemoPreview";
-import Pricing from "./components/Pricing";
-import FAQ from "./components/FAQ";
-import Footer from "./components/Footer";
-import DemoModal from "./components/DemoModal";
+
+// Lazy load below-fold components
+const Features = lazy(() => import("./components/Features"));
+const TargetAudience = lazy(() => import("./components/TargetAudience"));
+const DemoPreview = lazy(() => import("./components/DemoPreview"));
+const Pricing = lazy(() => import("./components/Pricing"));
+const FAQ = lazy(() => import("./components/FAQ"));
+const Footer = lazy(() => import("./components/Footer"));
+const DemoModal = lazy(() => import("./components/DemoModal"));
 
 function App() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [language, setLanguage] = useState("uz");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Check system preference for dark mode
   useEffect(() => {
@@ -39,18 +39,19 @@ function App() {
     }
   }, [isDarkMode]);
 
-  // Initial page load
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1200);
-    return () => clearTimeout(timer);
-  }, []);
-
   // Scroll to top button visibility
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 400);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setShowScrollTop(window.scrollY > 400);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -60,14 +61,6 @@ function App() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <CLoader size={72} />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -81,20 +74,28 @@ function App() {
 
       <main>
         <Hero language={language} openDemoModal={openDemoModal} />
-        <Features language={language} openDemoModal={openDemoModal} />
-        <TargetAudience language={language} />
-        <DemoPreview language={language} />
-        <Pricing language={language} openDemoModal={openDemoModal} />
-        <FAQ language={language} />
+        <Suspense fallback={null}>
+          <Features language={language} openDemoModal={openDemoModal} />
+          <TargetAudience language={language} />
+          <DemoPreview language={language} />
+          <Pricing language={language} openDemoModal={openDemoModal} />
+          <FAQ language={language} />
+        </Suspense>
       </main>
 
-      <Footer language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} />
+      <Suspense fallback={null}>
+        <Footer language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} />
+      </Suspense>
 
-      <DemoModal
-        isOpen={isDemoModalOpen}
-        onClose={closeDemoModal}
-        language={language}
-      />
+      {isDemoModalOpen && (
+        <Suspense fallback={null}>
+          <DemoModal
+            isOpen={isDemoModalOpen}
+            onClose={closeDemoModal}
+            language={language}
+          />
+        </Suspense>
+      )}
 
       {/* Scroll to Top Button */}
       {showScrollTop && (
