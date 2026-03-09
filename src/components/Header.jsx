@@ -47,7 +47,7 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
+          <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center cursor-pointer">
             <img
               src={isDarkMode ? logoDark : logoLight}
               alt="Cliento"
@@ -55,7 +55,7 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
               width={160}
               height={64}
             />
-          </div>
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
