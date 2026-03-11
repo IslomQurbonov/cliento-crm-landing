@@ -4,6 +4,33 @@ import { translations } from '../lib/translations';
 import logoDark from '../assets/images/logo-dark.webp';
 import logoLight from '../assets/images/logo-light.webp';
 
+const InstagramIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <circle cx="12" cy="12" r="5" />
+    <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+const FacebookIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+  </svg>
+);
+
+const YoutubeIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+  </svg>
+);
+
+const socialLinks = [
+  { href: 'https://www.instagram.com/clientouz/', label: 'Instagram', Icon: InstagramIcon },
+  { href: 'https://www.facebook.com/people/Cliento-CRM/61582755213337/', label: 'Facebook', Icon: FacebookIcon },
+  { href: 'https://t.me/clientouz', label: 'Telegram', Icon: Send },
+  { href: 'https://www.youtube.com/@clientouz', label: 'YouTube', Icon: YoutubeIcon },
+];
+
 const Footer = ({ language, setLanguage, isDarkMode }) => {
   const t = translations[language];
 
@@ -34,15 +61,20 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               width={160}
               height={64}
             />
-            <a
-              href="https://t.me/cliento_uz"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-              aria-label="Telegram"
-            >
-              <Send className="w-5 h-5" />
-            </a>
+            <div className="flex space-x-2">
+              {socialLinks.map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 bg-muted rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
+                  aria-label={label}
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
           </div>
 
           <p className="text-sm text-muted-foreground leading-relaxed">
@@ -112,9 +144,9 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               <Mail className="w-4 h-4 flex-shrink-0" />
               <span>info@cliento.uz</span>
             </a>
-            <a href="tel:+998901234567" className="flex items-center space-x-3 text-sm text-muted-foreground hover:text-primary transition-colors">
+            <a href="tel:+998771147555" className="flex items-center space-x-3 text-sm text-muted-foreground hover:text-primary transition-colors">
               <Phone className="w-4 h-4 flex-shrink-0" />
-              <span>+998 90 123 45 67</span>
+              <span>+998 77 114 75 55</span>
             </a>
             <div className="flex items-center space-x-3 text-sm text-muted-foreground">
               <MapPin className="w-4 h-4 flex-shrink-0" />
@@ -163,16 +195,19 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
             <p className="text-muted-foreground leading-relaxed">
               {t.brandDescription}
             </p>
-            <div className="flex space-x-4">
-              <a
-                href="https://t.me/cliento_uz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-                aria-label="Telegram"
-              >
-                <Send className="w-5 h-5" />
-              </a>
+            <div className="flex space-x-3">
+              {socialLinks.map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
+                  aria-label={label}
+                >
+                  <Icon className="w-5 h-5" />
+                </a>
+              ))}
             </div>
           </div>
 
@@ -243,9 +278,9 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                 </a>
               </li>
               <li>
-                <a href="tel:+998901234567" className="flex items-center space-x-3 text-muted-foreground hover:text-primary transition-colors">
+                <a href="tel:+998771147555" className="flex items-center space-x-3 text-muted-foreground hover:text-primary transition-colors">
                   <Phone className="w-5 h-5" />
-                  <span>+998 90 123 45 67</span>
+                  <span>+998 77 114 75 55</span>
                 </a>
               </li>
               <li className="flex items-center space-x-3">
