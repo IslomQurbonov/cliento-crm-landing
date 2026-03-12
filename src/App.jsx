@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ArrowUp } from "lucide-react";
 import "./App.css";
 import Header from "./components/Header";
@@ -18,7 +18,11 @@ const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 
 function App() {
-  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(
+    location.pathname === "/demo"
+  );
   const [language, setLanguage] = useState("uz");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -59,8 +63,21 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // /demo route uchun: tashqaridan link orqali kirganda modal avtomatik ochiladi
+  useEffect(() => {
+    if (location.pathname === "/demo") {
+      setIsDemoModalOpen(true);
+    }
+  }, [location.pathname]);
+
   const openDemoModal = () => setIsDemoModalOpen(true);
-  const closeDemoModal = () => setIsDemoModalOpen(false);
+  const closeDemoModal = () => {
+    setIsDemoModalOpen(false);
+    // /demo dan yopilsa asosiy sahifaga qaytadi
+    if (location.pathname === "/demo") {
+      navigate("/", { replace: true });
+    }
+  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -71,6 +88,34 @@ function App() {
       <Routes>
         <Route
           path="/"
+          element={
+            <>
+              <Header
+                language={language}
+                setLanguage={setLanguage}
+                isDarkMode={isDarkMode}
+                setIsDarkMode={setIsDarkMode}
+                openDemoModal={openDemoModal}
+              />
+              <main>
+                <Hero language={language} openDemoModal={openDemoModal} />
+                <Suspense fallback={null}>
+                  <Features language={language} openDemoModal={openDemoModal} />
+                  <TargetAudience language={language} />
+                  <DemoPreview language={language} />
+                  <Pricing language={language} openDemoModal={openDemoModal} />
+                  <FAQ language={language} />
+                </Suspense>
+              </main>
+              <Suspense fallback={null}>
+                <Footer language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} />
+              </Suspense>
+            </>
+          }
+        />
+        {/* /demo — asosiy sahifa + modal avtomatik ochiq */}
+        <Route
+          path="/demo"
           element={
             <>
               <Header
