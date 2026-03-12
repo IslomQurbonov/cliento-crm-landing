@@ -339,12 +339,12 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               &copy; {new Date().getFullYear()} Cliento CRM. {t.allRightsReserved}.
             </div>
             <div className="flex space-x-6 text-xs md:text-sm">
-              <span className="text-muted-foreground">
+              <Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
                 {t.privacy}
-              </span>
-              <span className="text-muted-foreground">
+              </Link>
+              <Link to="/terms" className="text-muted-foreground hover:text-primary transition-colors">
                 {t.terms}
-              </span>
+              </Link>
             </div>
           </div>
         </div>

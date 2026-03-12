@@ -14,6 +14,8 @@ const FAQ = lazy(() => import("./components/FAQ"));
 const Footer = lazy(() => import("./components/Footer"));
 const DemoModal = lazy(() => import("./components/DemoModal"));
 const Tutorial = lazy(() => import("./pages/Tutorial"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 
 function App() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
@@ -108,6 +110,22 @@ function App() {
                 isDarkMode={isDarkMode}
                 setIsDarkMode={setIsDarkMode}
               />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/terms"
+          element={
+            <Suspense fallback={null}>
+              <TermsOfService language={language} isDarkMode={isDarkMode} />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/privacy"
+          element={
+            <Suspense fallback={null}>
+              <PrivacyPolicy language={language} isDarkMode={isDarkMode} />
             </Suspense>
           }
         />
