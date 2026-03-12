@@ -7,6 +7,7 @@ import {
   Bell as BellIcon,
   Phone,
   Calendar,
+  CalendarDays,
   Briefcase,
   Settings,
   UserCog,
@@ -624,6 +625,99 @@ export const tutorialSections = [
       tips: [
         "Meetings can be linked to a client",
         "You get a reminder before the meeting",
+      ],
+    },
+  },
+  {
+    id: "calendar",
+    icon: CalendarDays,
+    group: "main",
+    screenshots: ["calendar-main.png"],
+    uz: {
+      title: "Kalendar",
+      shortDesc: "Barcha muddatlarni bir joyda ko'rish",
+      description:
+        "Kalendar sahifasida barcha uchrashuvlar, vazifalar, eslatmalar va bitimlar muddatlari bir joyda ko'rsatiladi. Oy, hafta va kun ko'rinishlarida qulay boshqarish mumkin.",
+      steps: [
+        {
+          title: "Kalendar ko'rinishi",
+          text: "Kalendar sahifasini oching. Oy ko'rinishida barcha eventlar rangli belgilar bilan ko'rsatiladi.",
+        },
+        {
+          title: "Ko'rinishni o'zgartirish",
+          text: "Oy, hafta yoki kun ko'rinishlarini tanlang. Har bir ko'rinish o'z formatida eventlarni ko'rsatadi.",
+        },
+        {
+          title: "Event tafsilotlari",
+          text: "Istalgan eventni bosing va batafsil ma'lumot ko'ring. Kerakli sahifaga to'g'ridan-to'g'ri o'tish mumkin.",
+        },
+        {
+          title: "Filtrlash",
+          text: "Event turlarini filtrlang: faqat uchrashuvlar, vazifalar, eslatmalar yoki bitimlarni ko'rsatish mumkin.",
+        },
+      ],
+      tips: [
+        "Rangli belgilar har xil event turini bildiradi: ko'k — uchrashuvlar, sariq — vazifalar, binafsha — eslatmalar, yashil — bitimlar",
+        "Bugungi kun ko'k doira bilan ajratib ko'rsatiladi",
+        "Kun ustiga bosib, o'sha kundagi barcha eventlarni ko'ring",
+      ],
+    },
+    ru: {
+      title: "Календарь",
+      shortDesc: "Все сроки в одном месте",
+      description:
+        "На странице календаря отображаются все встречи, задачи, напоминания и сроки сделок в одном месте. Удобное управление в режимах месяца, недели и дня.",
+      steps: [
+        {
+          title: "Вид календаря",
+          text: "Откройте страницу календаря. В режиме месяца все события показываются цветными метками.",
+        },
+        {
+          title: "Смена вида",
+          text: "Выберите вид: месяц, неделя или день. Каждый вид отображает события в своём формате.",
+        },
+        {
+          title: "Детали события",
+          text: "Нажмите на любое событие для просмотра деталей. Можно перейти на нужную страницу напрямую.",
+        },
+        {
+          title: "Фильтрация",
+          text: "Фильтруйте по типу: показывать только встречи, задачи, напоминания или сделки.",
+        },
+      ],
+      tips: [
+        "Цветные метки обозначают тип события: синий — встречи, жёлтый — задачи, фиолетовый — напоминания, зелёный — сделки",
+        "Сегодняшний день выделен синим кружком",
+        "Нажмите на день, чтобы увидеть все события этого дня",
+      ],
+    },
+    en: {
+      title: "Calendar",
+      shortDesc: "View all deadlines in one place",
+      description:
+        "The Calendar page displays all meetings, tasks, reminders, and deal deadlines in one place. Convenient management in month, week, and day views.",
+      steps: [
+        {
+          title: "Calendar view",
+          text: "Open the Calendar page. In month view, all events are shown with colored indicators.",
+        },
+        {
+          title: "Switch views",
+          text: "Choose between month, week, or day views. Each view displays events in its own format.",
+        },
+        {
+          title: "Event details",
+          text: "Click any event to see its details. You can navigate directly to the relevant page.",
+        },
+        {
+          title: "Filtering",
+          text: "Filter by event type: show only meetings, tasks, reminders, or deals.",
+        },
+      ],
+      tips: [
+        "Color indicators show event type: blue — meetings, amber — tasks, purple — reminders, green — deals",
+        "Today is highlighted with a blue circle",
+        "Click on a day to see all events for that day",
       ],
     },
   },
