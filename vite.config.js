@@ -13,6 +13,7 @@ export default defineConfig({
   },
   server: {
     port: 4012,
+    historyApiFallback: true,
   },
   build: {
     target: 'es2020',

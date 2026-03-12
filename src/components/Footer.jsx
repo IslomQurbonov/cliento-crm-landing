@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Globe, Send } from 'lucide-react';
 import { translations } from '../lib/translations';
 import logoDark from '../assets/images/logo-dark.webp';
@@ -109,6 +110,14 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                   >
                     {t.faq}
                   </button>
+                </li>
+                <li>
+                  <Link
+                    to="/tutorial"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  >
+                    {t.tutorial || "Qo'llanma"}
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -238,6 +247,14 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                 >
                   {t.faq}
                 </button>
+              </li>
+              <li>
+                <Link
+                  to="/tutorial"
+                  className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                >
+                  {t.tutorial || "Qo'llanma"}
+                </Link>
               </li>
             </ul>
           </div>

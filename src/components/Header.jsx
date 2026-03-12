@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, Globe } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X, Sun, Moon, Globe, BookOpen } from 'lucide-react';
 import { Button } from './ui/button';
 import { translations } from '../lib/translations';
 import logoDark from '../assets/images/logo-dark.webp';
@@ -77,6 +78,13 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
             >
               {t.faq}
             </button>
+            <Link
+              to="/tutorial"
+              className="flex items-center gap-1.5 text-foreground hover:text-primary transition-colors duration-200"
+            >
+              <BookOpen className="w-4 h-4" />
+              {t.tutorial || "Qo'llanma"}
+            </Link>
           </nav>
 
           {/* Desktop Controls */}
@@ -160,6 +168,14 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
               >
                 {t.faq}
               </button>
+              <Link
+                to="/tutorial"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-2 text-foreground hover:text-primary transition-colors duration-200"
+              >
+                <BookOpen className="w-4 h-4" />
+                {t.tutorial || "Qo'llanma"}
+              </Link>
 
               {/* Mobile Language Switcher */}
               <div className="flex flex-wrap gap-2 pt-2">

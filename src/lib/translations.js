@@ -4,6 +4,7 @@ export const translations = {
     features: "Imkoniyatlar",
     pricing: "Narxlar",
     faq: "Savollar",
+    tutorial: "Qo'llanma",
     tryDemo: "Demo sinab ko'ring",
 
     // Hero
@@ -299,6 +300,7 @@ export const translations = {
     features: "Возможности",
     pricing: "Цены",
     faq: "Вопросы",
+    tutorial: "Руководство",
     tryDemo: "Попробовать демо",
 
     // Hero
@@ -588,6 +590,7 @@ export const translations = {
     features: "Features",
     pricing: "Pricing",
     faq: "FAQ",
+    tutorial: "Guide",
     tryDemo: "Try Demo",
 
     // Hero

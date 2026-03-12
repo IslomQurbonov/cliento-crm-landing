@@ -1,4 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
 import { ArrowUp } from "lucide-react";
 import "./App.css";
 import Header from "./components/Header";
@@ -12,6 +13,7 @@ const Pricing = lazy(() => import("./components/Pricing"));
 const FAQ = lazy(() => import("./components/FAQ"));
 const Footer = lazy(() => import("./components/Footer"));
 const DemoModal = lazy(() => import("./components/DemoModal"));
+const Tutorial = lazy(() => import("./pages/Tutorial"));
 
 function App() {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
@@ -64,28 +66,52 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Header
-        language={language}
-        setLanguage={setLanguage}
-        isDarkMode={isDarkMode}
-        setIsDarkMode={setIsDarkMode}
-        openDemoModal={openDemoModal}
-      />
-
-      <main>
-        <Hero language={language} openDemoModal={openDemoModal} />
-        <Suspense fallback={null}>
-          <Features language={language} openDemoModal={openDemoModal} />
-          <TargetAudience language={language} />
-          <DemoPreview language={language} />
-          <Pricing language={language} openDemoModal={openDemoModal} />
-          <FAQ language={language} />
-        </Suspense>
-      </main>
-
-      <Suspense fallback={null}>
-        <Footer language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} />
-      </Suspense>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Header
+                language={language}
+                setLanguage={setLanguage}
+                isDarkMode={isDarkMode}
+                setIsDarkMode={setIsDarkMode}
+                openDemoModal={openDemoModal}
+              />
+              <main>
+                <Hero language={language} openDemoModal={openDemoModal} />
+                <Suspense fallback={null}>
+                  <Features language={language} openDemoModal={openDemoModal} />
+                  <TargetAudience language={language} />
+                  <DemoPreview language={language} />
+                  <Pricing language={language} openDemoModal={openDemoModal} />
+                  <FAQ language={language} />
+                </Suspense>
+              </main>
+              <Suspense fallback={null}>
+                <Footer language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} />
+              </Suspense>
+            </>
+          }
+        />
+        <Route
+          path="/tutorial/*"
+          element={
+            <Suspense fallback={
+              <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+              </div>
+            }>
+              <Tutorial
+                language={language}
+                setLanguage={setLanguage}
+                isDarkMode={isDarkMode}
+                setIsDarkMode={setIsDarkMode}
+              />
+            </Suspense>
+          }
+        />
+      </Routes>
 
       {isDemoModalOpen && (
         <Suspense fallback={null}>
