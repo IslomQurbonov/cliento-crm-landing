@@ -17,6 +17,7 @@ import {
   tutorialGroups,
   tutorialTranslations,
 } from "../lib/tutorialData";
+import SEOHead from "../components/SEOHead";
 import logoDark from "../assets/images/logo-dark.webp";
 import logoLight from "../assets/images/logo-light.webp";
 
@@ -150,8 +151,41 @@ function TutorialContent({ language }) {
   const prevSection = sectionIndex > 0 ? tutorialSections[sectionIndex - 1] : null;
   const nextSection = sectionIndex < tutorialSections.length - 1 ? tutorialSections[sectionIndex + 1] : null;
 
+  const seoTitle = `${data.title} — Cliento CRM Qo'llanma`;
+  const seoDesc = data.description.length > 160 ? data.description.slice(0, 157) + "..." : data.description;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": data.title,
+    "description": data.description,
+    "url": `https://cliento.uz/tutorial/${section.id}`,
+    "image": section.screenshots?.[0] ? `https://cliento.uz/tutorial/${section.screenshots[0]}` : "https://cliento.uz/og-image.png",
+    ...(data.steps?.length > 0 && {
+      "step": data.steps.map((step, i) => ({
+        "@type": "HowToStep",
+        "position": i + 1,
+        "name": step.title,
+        "text": step.text,
+      })),
+    }),
+    "isPartOf": {
+      "@type": "WebPage",
+      "name": "Cliento CRM Qo'llanma",
+      "url": "https://cliento.uz/tutorial",
+    },
+  };
+
   return (
     <div className="max-w-4xl mx-auto">
+      <SEOHead
+        title={seoTitle}
+        description={seoDesc}
+        path={`/tutorial/${section.id}`}
+        image={section.screenshots?.[0] ? `https://cliento.uz/tutorial/${section.screenshots[0]}` : undefined}
+        type="article"
+        jsonLd={jsonLd}
+      />
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-3">
@@ -292,6 +326,43 @@ function TutorialWelcome({ language }) {
   const mainSections = tutorialSections.filter((s) => s.group === "main");
   const adminSections = tutorialSections.filter((s) => s.group === "admin");
 
+  const welcomeSeoMeta = {
+    uz: {
+      title: "Qo'llanma — Cliento CRM",
+      description: "Cliento CRM tizimidan foydalanish bo'yicha batafsil qo'llanma. Dashboard, mijozlar, lidlar, vazifalar, bitimlar va boshqa barcha funksiyalarni o'rganing.",
+    },
+    ru: {
+      title: "Руководство — Cliento CRM",
+      description: "Подробное руководство по использованию Cliento CRM. Узнайте о Dashboard, клиентах, лидах, задачах, сделках и всех других функциях.",
+    },
+    en: {
+      title: "Tutorial — Cliento CRM",
+      description: "Comprehensive guide to using Cliento CRM. Learn about Dashboard, clients, leads, tasks, deals, and all other features.",
+    },
+  };
+
+  const welcomeJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": welcomeSeoMeta[language].title,
+    "description": welcomeSeoMeta[language].description,
+    "url": "https://cliento.uz/tutorial",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Cliento CRM",
+      "url": "https://cliento.uz",
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": tutorialSections.map((section, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "name": section[language].title,
+        "url": `https://cliento.uz/tutorial/${section.id}`,
+      })),
+    },
+  };
+
   const renderCards = (sections) =>
     sections.map((section) => {
       const data = section[language];
@@ -315,6 +386,12 @@ function TutorialWelcome({ language }) {
 
   return (
     <div className="max-w-4xl mx-auto">
+      <SEOHead
+        title={welcomeSeoMeta[language].title}
+        description={welcomeSeoMeta[language].description}
+        path="/tutorial"
+        jsonLd={welcomeJsonLd}
+      />
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
           <BookOpen className="w-8 h-8 text-primary" />
