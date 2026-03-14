@@ -209,7 +209,8 @@ function TutorialContent({ language }) {
             className="w-full h-auto"
             onError={(e) => {
               e.target.style.display = "none";
-              e.target.nextElementSibling.style.display = "flex";
+              const fallback = e.target.nextElementSibling;
+              if (fallback) fallback.style.display = "flex";
             }}
           />
           <div className="hidden items-center justify-center py-20 text-muted-foreground/50 flex-col gap-2">
@@ -255,7 +256,8 @@ function TutorialContent({ language }) {
                 alt={`${data.title} - ${i + 2}`}
                 className="w-full h-auto"
                 onError={(e) => {
-                  e.target.parentElement.style.display = "none";
+                  const parent = e.target.parentElement;
+                  if (parent) parent.style.display = "none";
                 }}
               />
             </div>
