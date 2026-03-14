@@ -113,7 +113,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                 </li>
                 <li>
                   <Link
-                    to="/tutorial"
+                    to="/tutorial/dashboard"
                     className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                   >
                     {t.tutorial || "Qo'llanma"}
@@ -250,7 +250,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               </li>
               <li>
                 <Link
-                  to="/tutorial"
+                  to="/tutorial/dashboard"
                   className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                 >
                   {t.tutorial || "Qo'llanma"}

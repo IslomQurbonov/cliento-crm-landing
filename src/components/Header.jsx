@@ -79,7 +79,7 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
               {t.faq}
             </button>
             <Link
-              to="/tutorial"
+              to="/tutorial/dashboard"
               className="flex items-center gap-1.5 text-foreground hover:text-primary transition-colors duration-200"
             >
               <BookOpen className="w-4 h-4" />
@@ -169,7 +169,7 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
                 {t.faq}
               </button>
               <Link
-                to="/tutorial"
+                to="/tutorial/dashboard"
                 onClick={() => setIsMenuOpen(false)}
                 className="flex items-center gap-2 text-foreground hover:text-primary transition-colors duration-200"
               >
