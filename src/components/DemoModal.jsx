@@ -3,6 +3,19 @@ import { X, ChevronRight, ChevronLeft, ChevronDown, Loader2, CheckCircle, Copy, 
 import { Button } from './ui/button';
 import { translations } from '../lib/translations';
 
+// Business type SVG icons
+import smmIcon from '../assets/images/smm-agentligi.svg';
+import beautyIcon from '../assets/images/gozallik-saloni.svg';
+import educationIcon from '../assets/images/talim-markazi.svg';
+import autoIcon from '../assets/images/avtoservis.svg';
+import restaurantIcon from '../assets/images/restoran.svg';
+import spaIcon from '../assets/images/spa-fitness.svg';
+import travelIcon from '../assets/images/turistik-agentlik.svg';
+import languageIcon from '../assets/images/til-oquv-markazi.svg';
+import advertisingIcon from '../assets/images/reklama-agentligi.svg';
+import photoIcon from '../assets/images/fotostudiya-event.svg';
+import otherIcon from '../assets/images/boshqa.svg';
+
 const DemoModal = ({ isOpen, onClose, language }) => {
   const [step, setStep] = useState(1);
   const [selectedBusiness, setSelectedBusiness] = useState('');
@@ -21,17 +34,17 @@ const DemoModal = ({ isOpen, onClose, language }) => {
   const t = translations[language];
 
   const businessTypes = [
-    { id: 'smm', name: t.businessTypes.smm, icon: '📱' },
-    { id: 'beauty', name: t.businessTypes.beauty, icon: '💄' },
-    { id: 'education', name: t.businessTypes.education, icon: '🎓' },
-    { id: 'auto', name: t.businessTypes.auto, icon: '🚗' },
-    { id: 'restaurant', name: t.businessTypes.restaurant, icon: '🍽️' },
-    { id: 'spa_fitness', name: t.businessTypes.spa_fitness, icon: '🧘' },
-    { id: 'travel', name: t.businessTypes.travel, icon: '✈️' },
-    { id: 'language', name: t.businessTypes.language, icon: '📚' },
-    { id: 'advertising', name: t.businessTypes.advertising, icon: '📢' },
-    { id: 'photo_event', name: t.businessTypes.photo_event, icon: '📸' },
-    { id: 'other', name: t.businessTypes.other, icon: '🏢' }
+    { id: 'smm', name: t.businessTypes.smm, icon: smmIcon },
+    { id: 'beauty', name: t.businessTypes.beauty, icon: beautyIcon },
+    { id: 'education', name: t.businessTypes.education, icon: educationIcon },
+    { id: 'auto', name: t.businessTypes.auto, icon: autoIcon },
+    { id: 'restaurant', name: t.businessTypes.restaurant, icon: restaurantIcon },
+    { id: 'spa_fitness', name: t.businessTypes.spa_fitness, icon: spaIcon },
+    { id: 'travel', name: t.businessTypes.travel, icon: travelIcon },
+    { id: 'language', name: t.businessTypes.language, icon: languageIcon },
+    { id: 'advertising', name: t.businessTypes.advertising, icon: advertisingIcon },
+    { id: 'photo_event', name: t.businessTypes.photo_event, icon: photoIcon },
+    { id: 'other', name: t.businessTypes.other, icon: otherIcon }
   ];
 
   const validatePhone = (phone) => {
@@ -253,7 +266,7 @@ const DemoModal = ({ isOpen, onClose, language }) => {
                         : 'border-border hover:border-primary/50'
                     }`}
                   >
-                    <div className="text-2xl mb-2">{business.icon}</div>
+                    <img src={business.icon} alt={business.name} className="w-8 h-8 mb-2" />
                     <div className="font-medium text-foreground text-sm sm:text-base">{business.name}</div>
                   </button>
                 ))}
