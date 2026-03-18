@@ -11,7 +11,7 @@ const BASE_URL = "https://cliento.uz";
  * @param {string} [props.image] - OG image URL
  * @param {string} [props.type] - OG type (default: website)
  * @param {Object} [props.jsonLd] - JSON-LD structured data
- * @param {string} [props.language] - Joriy til (uz, ru, en) — hreflang uchun
+ * @param {string} [props.language] - Joriy til (uz, ru, en) — hrefLang uchun
  */
 export default function SEOHead({ title, description, path, image, type = "website", jsonLd, language }) {
   const url = `${BASE_URL}${path}`;
@@ -23,11 +23,11 @@ export default function SEOHead({ title, description, path, image, type = "websi
       <meta name="description" content={description} />
       <link rel="canonical" href={url} />
 
-      {/* hreflang — ko'p tilli sahifalar uchun */}
-      <link rel="alternate" hreflang="uz" href={url} />
-      <link rel="alternate" hreflang="ru" href={url} />
-      <link rel="alternate" hreflang="en" href={url} />
-      <link rel="alternate" hreflang="x-default" href={url} />
+      {/* hrefLang — ko'p tilli sahifalar uchun */}
+      <link rel="alternate" hrefLang="uz" href={url} />
+      <link rel="alternate" hrefLang="ru" href={url} />
+      <link rel="alternate" hrefLang="en" href={url} />
+      <link rel="alternate" hrefLang="x-default" href={url} />
 
       {/* Open Graph */}
       <meta property="og:type" content={type} />
