@@ -175,7 +175,7 @@ function injectMeta(html, meta) {
     `<meta property="og:type" content="${meta.type || 'website'}" />`
   )
 
-  // Article uchun qo'shimcha meta taglar
+  // Article uchun: JSON-LD ni Article ga almashtirish + qo'shimcha meta taglar
   if (meta.type === 'article') {
     const articleTags = []
     if (meta.publishedAt) {
@@ -192,6 +192,61 @@ function injectMeta(html, meta) {
     if (articleTags.length > 0) {
       result = result.replace('</head>', `    ${articleTags.join('\n    ')}\n  </head>`)
     }
+
+    // SoftwareApplication JSON-LD ni Article JSON-LD ga almashtirish
+    const articleJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": meta.title,
+      "description": meta.description,
+      "image": meta.image,
+      "datePublished": meta.publishedAt || '',
+      "author": {
+        "@type": "Organization",
+        "name": meta.author || "Cliento",
+        "url": SITE_URL
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Cliento",
+        "url": SITE_URL,
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${SITE_URL}/android-chrome-512x512.png`
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `${SITE_URL}${meta.path}`
+      },
+      "keywords": (meta.tags || []).join(', ')
+    }, null, 2)
+
+    result = result.replace(
+      /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+      `<script type="application/ld+json">\n${articleJsonLd}\n    </script>`
+    )
+  }
+
+  // Blog listing uchun: CollectionPage JSON-LD
+  if (meta.path === '/blog') {
+    const blogJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": meta.title,
+      "description": meta.description,
+      "url": `${SITE_URL}/blog`,
+      "publisher": {
+        "@type": "Organization",
+        "name": "Cliento",
+        "url": SITE_URL
+      }
+    }, null, 2)
+
+    result = result.replace(
+      /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+      `<script type="application/ld+json">\n${blogJsonLd}\n    </script>`
+    )
   }
 
   return result
