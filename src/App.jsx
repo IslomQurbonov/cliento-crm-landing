@@ -81,15 +81,19 @@ function App() {
   useEffect(() => {
     if (location.state?.scrollTo) {
       const sectionId = location.state.scrollTo;
-      // DOM render bo'lishini kutish
-      setTimeout(() => {
+      // Lazy-loaded komponentlar yuklanishini kutish (polling)
+      let attempts = 0;
+      const tryScroll = () => {
         const element = document.getElementById(sectionId);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
+          window.history.replaceState({}, '');
+        } else if (attempts < 20) {
+          attempts++;
+          setTimeout(tryScroll, 150);
         }
-      }, 100);
-      // state ni tozalash (orqaga qaytganda qayta scroll qilmasligi uchun)
-      window.history.replaceState({}, '');
+      };
+      tryScroll();
     }
   }, [location.state]);
 
