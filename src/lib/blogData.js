@@ -1,16 +1,36 @@
 export const blogCategories = [
-  { id: "crm-basics", color: "#3B82F6", uz: "CRM asoslari", ru: "Основы CRM", en: "CRM Basics" },
+  {
+    id: "crm-basics",
+    color: "#3B82F6",
+    uz: "CRM asoslari",
+    ru: "Основы CRM",
+    en: "CRM Basics",
+  },
   { id: "tips", color: "#10B981", uz: "Maslahatlar", ru: "Советы", en: "Tips" },
-  { id: "updates", color: "#8B5CF6", uz: "Yangiliklar", ru: "Обновления", en: "Updates" },
-  { id: "business", color: "#F59E0B", uz: "Biznes", ru: "Бизнес", en: "Business" },
+  {
+    id: "updates",
+    color: "#8B5CF6",
+    uz: "Yangiliklar",
+    ru: "Обновления",
+    en: "Updates",
+  },
+  {
+    id: "business",
+    color: "#F59E0B",
+    uz: "Biznes",
+    ru: "Бизнес",
+    en: "Business",
+  },
 ];
 
 export const blogTranslations = {
   uz: {
     pageTitle: "Blog",
-    pageDescription: "CRM, biznes boshqaruvi va Cliento yangiliklari haqida foydali maqolalar",
+    pageDescription:
+      "CRM, biznes boshqaruvi va Cliento yangiliklari haqida foydali maqolalar",
     title: "Blog",
-    subtitle: "CRM, biznes boshqaruvi va Cliento yangiliklari haqida foydali maqolalar",
+    subtitle:
+      "CRM, biznes boshqaruvi va Cliento yangiliklari haqida foydali maqolalar",
     allCategories: "Barchasi",
     readMore: "Batafsil o'qish",
     readingTime: "o'qish vaqti",
@@ -32,7 +52,8 @@ export const blogTranslations = {
   },
   ru: {
     pageTitle: "Блог",
-    pageDescription: "Полезные статьи о CRM, управлении бизнесом и новостях Cliento",
+    pageDescription:
+      "Полезные статьи о CRM, управлении бизнесом и новостях Cliento",
     title: "Блог",
     subtitle: "Полезные статьи о CRM, управлении бизнесом и новостях Cliento",
     allCategories: "Все",
@@ -56,9 +77,11 @@ export const blogTranslations = {
   },
   en: {
     pageTitle: "Blog",
-    pageDescription: "Useful articles about CRM, business management, and Cliento updates",
+    pageDescription:
+      "Useful articles about CRM, business management, and Cliento updates",
     title: "Blog",
-    subtitle: "Useful articles about CRM, business management, and Cliento updates",
+    subtitle:
+      "Useful articles about CRM, business management, and Cliento updates",
     allCategories: "All",
     readMore: "Read more",
     readingTime: "reading time",
@@ -71,7 +94,8 @@ export const blogTranslations = {
     relatedPosts: "Related posts",
     noPosts: "No posts yet",
     postNotFound: "Post not found",
-    postNotFoundDesc: "The article you are looking for does not exist or has been removed.",
+    postNotFoundDesc:
+      "The article you are looking for does not exist or has been removed.",
     publishedOn: "Published on",
     author: "Author",
     tags: "Tags",
@@ -84,7 +108,8 @@ export const blogPosts = [
   {
     slug: "crm-nima-va-biznesingizga-qanday-yordam-beradi",
     category: "crm-basics",
-    coverImage: "/blog/crm-nima-va-biznesingizga-qanday-yordam-beradi-cover.webp",
+    coverImage:
+      "/blog/crm-nima-va-biznesingizga-qanday-yordam-beradi-cover.webp",
     author: "Cliento",
     publishedAt: "2026-02-10",
     tags: ["crm", "biznes", "avtomatlashtirish", "mijozlar"],
@@ -108,7 +133,7 @@ export const blogPosts = [
         },
         {
           type: "image",
-          src: "/blog/crm-dashboard-example.webp",
+          src: "/blog/crm-nima-1.webp",
           alt: "CRM tizimi boshqaruv paneli namunasi",
           caption:
             "Cliento CRM boshqaruv paneli — barcha muhim ko'rsatkichlar bir joyda",
@@ -324,7 +349,7 @@ export const blogPosts = [
         },
         {
           type: "image",
-          src: "/blog/client-retention-stats.webp",
+          src: "/blog/mijoz-qaytish-narxi.webp",
           alt: "Mijozlarni saqlab qolish statistikasi",
           caption:
             "Mijozni saqlab qolish xarajati yangi mijoz jalb qilishdan kamroq",
@@ -525,7 +550,7 @@ export const blogPosts = [
         },
         {
           type: "image",
-          src: "/blog/deals-pipeline.webp",
+          src: "/blog/kanban-korinishida-sotish-jarayonini-kuzating.webp",
           alt: "Bitimlar pipeline ko'rinishi",
           caption:
             "Yangi bitimlar moduli — Kanban ko'rinishida sotish jarayonini kuzating",
@@ -739,8 +764,7 @@ export function getRelatedPosts(slug, limit = 3) {
 
   return blogPosts
     .filter(
-      (post) =>
-        post.slug !== slug && post.category === currentPost.category
+      (post) => post.slug !== slug && post.category === currentPost.category,
     )
     .slice(0, limit);
 }
