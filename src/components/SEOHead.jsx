@@ -15,7 +15,9 @@ const BASE_URL = "https://cliento.uz";
  */
 export default function SEOHead({ title, description, path, image, type = "website", jsonLd, language }) {
   const url = `${BASE_URL}${path}`;
-  const ogImage = image || `${BASE_URL}/og-image.png`;
+  const ogImage = image
+    ? (image.startsWith('http') ? image : `${BASE_URL}${image}`)
+    : `${BASE_URL}/og-image.png`;
 
   return (
     <Helmet>

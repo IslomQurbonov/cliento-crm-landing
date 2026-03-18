@@ -119,9 +119,38 @@ Yangi kategoriya qo'shish uchun `blogCategories` massiviga qo'shing.
 1. Rasmlarni tayyorlash (cover 1200x630, content 1200xN, webp format)
 2. `public/blog/` ga rasmlarni yuklash
 3. `src/lib/blogData.js` → `blogPosts` massiviga yangi post qo'shish (3 tilda)
-4. `public/sitemap.xml` ga yangi URL qo'shish
-5. `npm run build` bilan tekshirish
-6. Commit va push
+4. `scripts/prerender.mjs` → `ROUTES` massiviga `/blog/{slug}` qo'shish
+5. `public/sitemap.xml` ga yangi URL qo'shish
+6. `npm run build` bilan tekshirish (prerender avtomatik ishlaydi)
+7. Commit va push
+
+---
+
+## Prerender (SSG)
+
+Build jarayoni: `npm run build` = `vite build` + `node scripts/prerender.mjs`
+
+### Qanday ishlaydi
+1. Vite odatiy SPA build qiladi (`dist/index.html`)
+2. Puppeteer har bir route ni brauzerda ochadi
+3. react-helmet-async meta taglarni qo'yadi
+4. To'liq HTML saqlanadi: `dist/blog/{slug}/index.html`
+
+### Nima uchun kerak
+- **Telegram/Facebook/Twitter** link share qilganda to'g'ri title, rasm, tavsif ko'rsatadi
+- **Google/Yandex** darhol indekslaydi (JS render kutmaydi)
+- Foydalanuvchi tajribasi o'zgarmaydi — SPA odatdagidek ishlaydi
+
+### Yangi post qo'shganda
+`scripts/prerender.mjs` dagi `ROUTES` massiviga slug qo'shish:
+```javascript
+const ROUTES = [
+  '/',
+  '/blog',
+  '/blog/yangi-post-slug',  // ← yangi qo'shiladi
+  ...
+]
+```
 
 ---
 
@@ -132,3 +161,5 @@ Yangi kategoriya qo'shish uchun `blogCategories` massiviga qo'shing.
 - O'xshash maqolalar bir xil kategoriyadan avtomatik tanlanadi
 - Dark mode to'liq qo'llab-quvvatlanadi
 - 3 tilda ishlaydi (uz, ru, en)
+- **Prerender** — build vaqtida statik HTML yaratadi (SEO uchun)
+- **Share tugmasi** — URL ni clipboard ga ko'chiradi, "Nusxa olindi!" feedback beradi

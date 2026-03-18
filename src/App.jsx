@@ -49,6 +49,11 @@ function App() {
     }
   }, [isDarkMode]);
 
+  // Prerender signal — vite-plugin-prerender sahifa tayyor ekanini biladi
+  useEffect(() => {
+    document.dispatchEvent(new Event('prerender-ready'));
+  }, [location.pathname]);
+
   // Scroll to top button visibility
   useEffect(() => {
     let ticking = false;
