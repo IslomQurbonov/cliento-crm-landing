@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Sun, Moon, Globe, BookOpen, Newspaper } from 'lucide-react';
 import { Button } from './ui/button';
 import { translations } from '../lib/translations';
@@ -10,6 +10,8 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
   const t = translations[language];
 
   useEffect(() => {
@@ -28,11 +30,15 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
   }, []);
 
   const scrollToSection = (sectionId) => {
+    setIsMenuOpen(false);
+    if (location.pathname !== '/' && location.pathname !== '/demo') {
+      navigate('/', { state: { scrollTo: sectionId } });
+      return;
+    }
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-    setIsMenuOpen(false);
   };
 
   const languages = [

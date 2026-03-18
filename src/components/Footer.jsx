@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Phone, MapPin, Globe, Send } from 'lucide-react';
 import { translations } from '../lib/translations';
 import logoDark from '../assets/images/logo-dark.webp';
@@ -33,6 +33,8 @@ const socialLinks = [
 ];
 
 const Footer = ({ language, setLanguage, isDarkMode }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const t = translations[language];
 
   const languages = [
@@ -42,6 +44,10 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
   ];
 
   const scrollToSection = (sectionId) => {
+    if (location.pathname !== '/' && location.pathname !== '/demo') {
+      navigate('/', { state: { scrollTo: sectionId } });
+      return;
+    }
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });

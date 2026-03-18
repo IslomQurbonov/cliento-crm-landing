@@ -77,6 +77,22 @@ function App() {
     }
   }, [location.pathname]);
 
+  // Boshqa sahifadan navigate({ state: { scrollTo } }) kelganda scroll qilish
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const sectionId = location.state.scrollTo;
+      // DOM render bo'lishini kutish
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+      // state ni tozalash (orqaga qaytganda qayta scroll qilmasligi uchun)
+      window.history.replaceState({}, '');
+    }
+  }, [location.state]);
+
   const openDemoModal = () => setIsDemoModalOpen(true);
   const closeDemoModal = () => {
     setIsDemoModalOpen(false);
