@@ -175,6 +175,24 @@ function injectMeta(html, meta) {
     `<meta property="og:type" content="${meta.type || 'website'}" />`
   )
 
+  // twitter:title
+  result = result.replace(
+    /<meta name="twitter:title" content="[^"]*"\s*\/?>/,
+    `<meta name="twitter:title" content="${meta.title}" />`
+  )
+
+  // twitter:description
+  result = result.replace(
+    /<meta name="twitter:description" content="[^"]*"\s*\/?>/,
+    `<meta name="twitter:description" content="${meta.description}" />`
+  )
+
+  // twitter:image
+  result = result.replace(
+    /<meta name="twitter:image" content="[^"]*"\s*\/?>/,
+    `<meta name="twitter:image" content="${meta.image}" />`
+  )
+
   // Article uchun: JSON-LD ni Article ga almashtirish + qo'shimcha meta taglar
   if (meta.type === 'article') {
     const articleTags = []
