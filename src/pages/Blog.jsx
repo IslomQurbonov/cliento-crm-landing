@@ -141,7 +141,7 @@ function BlogCard({ post, language, blogT }) {
   const postData = post[language] || post.uz;
   const category = blogCategories.find((c) => c.id === post.category);
   const categoryName = category ? category[language] || category.uz : "";
-  const readingTime = calculateReadingTime(post, language);
+  const readingTime = calculateReadingTime(postData.content);
 
   return (
     <Link
@@ -187,7 +187,7 @@ function BlogCard({ post, language, blogT }) {
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
             <User className="w-3.5 h-3.5" />
-            {postData.author}
+            {post.author}
           </span>
           <span className="flex items-center gap-1">
             <Calendar className="w-3.5 h-3.5" />
@@ -462,8 +462,8 @@ function BlogPost({ language, setLanguage, isDarkMode, setIsDarkMode }) {
   const postData = post[language] || post.uz;
   const category = blogCategories.find((c) => c.id === post.category);
   const categoryName = category ? category[language] || category.uz : "";
-  const readingTime = calculateReadingTime(post, language);
-  const relatedPosts = getRelatedPosts(post.slug, post.category, 3);
+  const readingTime = calculateReadingTime(postData.content);
+  const relatedPosts = getRelatedPosts(post.slug, 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -474,7 +474,7 @@ function BlogPost({ language, setLanguage, isDarkMode, setIsDarkMode }) {
     dateModified: post.updatedAt || post.publishedAt,
     author: {
       "@type": "Organization",
-      name: postData.author,
+      name: post.author || "Cliento",
     },
     publisher: {
       "@type": "Organization",
@@ -579,7 +579,7 @@ function BlogPost({ language, setLanguage, isDarkMode, setIsDarkMode }) {
 
               <span className="flex items-center gap-1">
                 <User className="w-4 h-4" />
-                {postData.author}
+                {post.author}
               </span>
 
               <span className="flex items-center gap-1">
@@ -595,7 +595,7 @@ function BlogPost({ language, setLanguage, isDarkMode, setIsDarkMode }) {
               {/* Share button */}
               <button
                 onClick={handleShare}
-                className="flex items-center gap-1 px-3 py-1 rounded-full bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors ml-auto"
+                className="cursor-pointer flex items-center gap-1 px-3 py-1 rounded-full bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors ml-auto"
               >
                 <Share2 className="w-4 h-4" />
                 <span>{copied ? blogT.copied : blogT.share}</span>
