@@ -16,6 +16,7 @@ const TermsOfService = ({ language, isDarkMode }) => {
         title={`${legal.termsTitle || "Foydalanish shartlari"} — Cliento CRM`}
         description={legal.termsMetaDesc || "Cliento CRM platformasidan foydalanish shartlari va qoidalari"}
         path="/terms"
+        language={language}
       />
 
       <div className="min-h-screen bg-background text-foreground">

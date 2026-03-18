@@ -185,6 +185,7 @@ function TutorialContent({ language }) {
         image={section.screenshots?.[0] ? `https://cliento.uz/tutorial/${section.screenshots[0]}` : undefined}
         type="article"
         jsonLd={jsonLd}
+        language={language}
       />
       {/* Header */}
       <div className="mb-8">
@@ -393,6 +394,7 @@ function TutorialWelcome({ language }) {
         description={welcomeSeoMeta[language].description}
         path="/tutorial"
         jsonLd={welcomeJsonLd}
+        language={language}
       />
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">

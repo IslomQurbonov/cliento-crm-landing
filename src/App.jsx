@@ -4,6 +4,7 @@ import { ArrowUp } from "lucide-react";
 import "./App.css";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import SEOHead from "./components/SEOHead";
 
 // Lazy load below-fold components
 const Features = lazy(() => import("./components/Features"));
@@ -118,6 +119,12 @@ function App() {
           path="/demo"
           element={
             <>
+              <SEOHead
+                title="Bepul Demo Sinab Ko'ring — Cliento CRM"
+                description="Cliento CRM tizimini bepul sinab ko'ring. 5 daqiqada ro'yxatdan o'ting va o'z biznesingiz uchun CRM imkoniyatlarini tekshiring."
+                path="/demo"
+                language={language}
+              />
               <Header
                 language={language}
                 setLanguage={setLanguage}

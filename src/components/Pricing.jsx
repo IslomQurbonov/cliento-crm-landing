@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
 import {
   Check,
   X,
@@ -298,8 +299,42 @@ const Pricing = ({ language, openDemoModal }) => {
     else if (diff < -50) goTo(activeIndex - 1);
   };
 
+  // JSON-LD Pricing structured data
+  const pricingJsonLd = apiPlans
+    ? {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Cliento CRM",
+        "url": "https://cliento.uz",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "offers": apiPlans.map((plan) => ({
+          "@type": "Offer",
+          "name": plan.name,
+          "price": String(plan.price),
+          "priceCurrency": plan.currency || "UZS",
+          "priceValidUntil": new Date(Date.now() + 365 * 86400000).toISOString().split("T")[0],
+          "availability": "https://schema.org/InStock",
+          "description": plan.limits
+            .map((l) => {
+              const fn = (featureLabels["uz"] || {})[l.featureKey];
+              return fn ? fn(l.limitValue) : l.featureKey;
+            })
+            .join(", "),
+        })),
+      }
+    : null;
+
   return (
     <section id="pricing" ref={sectionRef} className="py-20 bg-muted/30">
+      {/* Pricing JSON-LD */}
+      {pricingJsonLd && (
+        <Helmet>
+          <script type="application/ld+json">
+            {JSON.stringify(pricingJsonLd)}
+          </script>
+        </Helmet>
+      )}
       <div className="container mx-auto px-4">
         {/* Header */}
         <div

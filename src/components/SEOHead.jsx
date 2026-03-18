@@ -11,8 +11,9 @@ const BASE_URL = "https://cliento.uz";
  * @param {string} [props.image] - OG image URL
  * @param {string} [props.type] - OG type (default: website)
  * @param {Object} [props.jsonLd] - JSON-LD structured data
+ * @param {string} [props.language] - Joriy til (uz, ru, en) — hreflang uchun
  */
-export default function SEOHead({ title, description, path, image, type = "website", jsonLd }) {
+export default function SEOHead({ title, description, path, image, type = "website", jsonLd, language }) {
   const url = `${BASE_URL}${path}`;
   const ogImage = image || `${BASE_URL}/og-image.png`;
 
@@ -22,14 +23,25 @@ export default function SEOHead({ title, description, path, image, type = "websi
       <meta name="description" content={description} />
       <link rel="canonical" href={url} />
 
+      {/* hreflang — ko'p tilli sahifalar uchun */}
+      <link rel="alternate" hreflang="uz" href={url} />
+      <link rel="alternate" hreflang="ru" href={url} />
+      <link rel="alternate" hreflang="en" href={url} />
+      <link rel="alternate" hreflang="x-default" href={url} />
+
       {/* Open Graph */}
       <meta property="og:type" content={type} />
       <meta property="og:url" content={url} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta property="og:site_name" content="Cliento CRM" />
-      <meta property="og:locale" content="uz_UZ" />
+      <meta property="og:locale" content={language === "ru" ? "ru_RU" : language === "en" ? "en_US" : "uz_UZ"} />
+      {language !== "uz" && <meta property="og:locale:alternate" content="uz_UZ" />}
+      {language !== "ru" && <meta property="og:locale:alternate" content="ru_RU" />}
+      {language !== "en" && <meta property="og:locale:alternate" content="en_US" />}
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />

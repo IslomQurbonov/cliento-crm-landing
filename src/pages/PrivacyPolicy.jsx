@@ -16,6 +16,7 @@ const PrivacyPolicy = ({ language, isDarkMode }) => {
         title={`${legal.privacyTitle || "Maxfiylik siyosati"} — Cliento CRM`}
         description={legal.privacyMetaDesc || "Cliento CRM platformasining maxfiylik siyosati va shaxsiy ma'lumotlarni himoya qilish qoidalari"}
         path="/privacy"
+        language={language}
       />
 
       <div className="min-h-screen bg-background text-foreground">
