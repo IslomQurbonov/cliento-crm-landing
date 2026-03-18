@@ -1,217 +1,234 @@
 /**
- * Prerender Script — build dan keyin ishga tushadi
- * Har bir route uchun puppeteer orqali to'liq HTML yaratadi
- * Natija: dist/ ichida tayyor HTML fayllar (SEO meta taglar bilan)
+ * Lightweight Prerender Script — Puppeteer KERAK EMAS
  *
- * Foydalanish: npm run build (avtomatik build:prerender ishga tushadi)
+ * index.html ni o'qib, har bir route uchun to'g'ri meta taglarni inject qiladi.
+ * Natija: dist/ ichida har bir route uchun o'z index.html fayli.
+ *
+ * Telegram, Facebook, Google crawler — tayyor HTML dagi meta taglarni ko'radi.
  */
-import { launch } from 'puppeteer'
-import { createServer } from 'http'
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const DIST = join(__dirname, '..', 'dist')
-const PORT = 45678
+const SITE_URL = 'https://cliento.uz'
 
-// Prerender qilinadigan routelar
-const ROUTES = [
-  '/',
-  '/demo',
-  '/blog',
-  '/blog/crm-nima-va-biznesingizga-qanday-yordam-beradi',
-  '/blog/mijozlarni-yoqotmaslik-uchun-7-ta-tavsiya',
-  '/blog/cliento-crm-yangi-imkoniyatlari-2026-mart',
-  '/tutorial',
-  '/terms',
-  '/privacy',
-]
+// blogData.js dan postlarni import qilamiz
+// ESM import ishlamasa (chunki blogData JSX emas, oddiy JS), dynamic import
+const blogDataPath = join(__dirname, '..', 'src', 'lib', 'blogData.js')
+const blogDataContent = readFileSync(blogDataPath, 'utf-8')
 
-// Oddiy statik server — dist papkasini serve qiladi
-function createStaticServer() {
-  const indexHtml = readFileSync(join(DIST, 'index.html'), 'utf-8')
+// blogPosts array ni parse qilish (eval o'rniga regex bilan)
+function extractBlogPosts() {
+  const posts = []
+  // slug larni topamiz
+  const slugRegex = /slug:\s*"([^"]+)"/g
+  const slugs = []
+  let m
+  while ((m = slugRegex.exec(blogDataContent)) !== null) {
+    slugs.push(m[1])
+  }
 
-  return createServer((req, res) => {
-    const url = req.url.split('?')[0]
-    const filePath = join(DIST, url)
+  for (const slug of slugs) {
+    // Bu slug atrofidagi ma'lumotlarni topish
+    const slugIdx = blogDataContent.indexOf(`slug: "${slug}"`)
+    // slug dan keyingi 3000 belgi ichida uz: { title, description } ni topish
+    const chunk = blogDataContent.substring(slugIdx, slugIdx + 3000)
 
-    // Statik fayllarni berish (js, css, webp, png...)
-    if (url.includes('.')) {
-      try {
-        const content = readFileSync(filePath)
-        const ext = url.split('.').pop()
-        const mimeTypes = {
-          js: 'application/javascript',
-          css: 'text/css',
-          html: 'text/html',
-          webp: 'image/webp',
-          png: 'image/png',
-          jpg: 'image/jpeg',
-          svg: 'image/svg+xml',
-          json: 'application/json',
-          woff2: 'font/woff2',
-          woff: 'font/woff',
-        }
-        res.writeHead(200, { 'Content-Type': mimeTypes[ext] || 'application/octet-stream' })
-        res.end(content)
-      } catch {
-        res.writeHead(404)
-        res.end('Not found')
-      }
-      return
-    }
+    const coverMatch = chunk.match(/coverImage:\s*(?:"([^"]+)"|[\s\S]*?"([^"]+)")/)
+    const coverImage = coverMatch ? (coverMatch[1] || coverMatch[2]) : ''
 
-    // SPA fallback — har qanday route uchun index.html
-    res.writeHead(200, { 'Content-Type': 'text/html' })
-    res.end(indexHtml)
-  })
+    const authorMatch = chunk.match(/author:\s*"([^"]+)"/)
+    const author = authorMatch ? authorMatch[1] : 'Cliento'
+
+    const dateMatch = chunk.match(/publishedAt:\s*"([^"]+)"/)
+    const publishedAt = dateMatch ? dateMatch[1] : ''
+
+    const tagsMatch = chunk.match(/tags:\s*\[([^\]]+)\]/)
+    const tags = tagsMatch ? tagsMatch[1].replace(/"/g, '').split(',').map(t => t.trim()) : []
+
+    // uz blokidan title va description ni olish
+    const uzIdx = chunk.indexOf('uz: {')
+    if (uzIdx === -1) continue
+    const uzChunk = chunk.substring(uzIdx, uzIdx + 500)
+
+    const titleMatch = uzChunk.match(/title:\s*"([^"]+)"/)
+    const descMatch = uzChunk.match(/description:\s*(?:"([^"]+)"|[\s\S]*?"([^"]+)")/)
+
+    posts.push({
+      slug,
+      coverImage,
+      author,
+      publishedAt,
+      tags,
+      title: titleMatch ? titleMatch[1] : slug,
+      description: descMatch ? (descMatch[1] || descMatch[2]) : '',
+    })
+  }
+  return posts
 }
 
-async function prerender() {
-  console.log('\n🔄 Prerender boshlandi...\n')
+// Sahifa ma'lumotlari — har bir route uchun meta taglar
+function getRoutesMeta() {
+  const blogPosts = extractBlogPosts()
 
-  // 1. Statik server ishga tushirish
-  const server = createStaticServer()
-  await new Promise(resolve => server.listen(PORT, resolve))
-  console.log(`📡 Statik server: http://localhost:${PORT}`)
+  const routes = [
+    // Asosiy sahifa — index.html dagi default taglar yetarli
+    // /demo — asosiy sahifa bilan bir xil
+    {
+      path: '/demo',
+      title: 'Bepul Demo — Cliento CRM',
+      description: 'Cliento CRM ni 24 soat bepul sinab ko\'ring. Ro\'yxatdan o\'tish shart emas. O\'z sohangizga mos demo ma\'lumotlar bilan.',
+      image: `${SITE_URL}/og-image.png`,
+      type: 'website',
+    },
+    // Blog listing
+    {
+      path: '/blog',
+      title: 'Blog — Cliento CRM',
+      description: 'CRM, biznes boshqaruvi va Cliento yangiliklari haqida foydali maqolalar.',
+      image: `${SITE_URL}/og-image.png`,
+      type: 'website',
+    },
+    // Tutorial
+    {
+      path: '/tutorial',
+      title: 'Foydalanish qo\'llanmasi — Cliento CRM',
+      description: 'Cliento CRM tizimini qanday ishlatishni bosqichma-bosqich o\'rganing. Dashboard, mijozlar, leadlar, vazifalar va boshqa modullar.',
+      image: `${SITE_URL}/og-image.png`,
+      type: 'website',
+    },
+  ]
 
-  // 2. Puppeteer ishga tushirish
-  const browser = await launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  })
+  // Blog postlar
+  for (const post of blogPosts) {
+    const image = post.coverImage
+      ? `${SITE_URL}${post.coverImage}`
+      : `${SITE_URL}/og-image.png`
 
-  let success = 0
-  let failed = 0
+    routes.push({
+      path: `/blog/${post.slug}`,
+      title: `${post.title} — Cliento CRM Blog`,
+      description: post.description,
+      image,
+      type: 'article',
+      author: post.author,
+      publishedAt: post.publishedAt,
+      tags: post.tags,
+    })
+  }
 
-  for (const route of ROUTES) {
-    try {
-      const page = await browser.newPage()
+  return routes
+}
 
-      // Console xatolarni yig'ish
-      const errors = []
-      page.on('pageerror', err => errors.push(err.message))
+// index.html ichidagi meta taglarni almashtirish
+// Vite build `/>` (self-closing) ishlatadi, shuning uchun regex `\s*/?>` bilan tugaydi
+function injectMeta(html, meta) {
+  let result = html
 
-      // Sahifani ochish va render bo'lishini kutish
-      await page.goto(`http://localhost:${PORT}${route}`, {
-        waitUntil: 'networkidle0',
-        timeout: 30000,
-      })
+  // <title> almashtirish
+  result = result.replace(
+    /<title>[^<]*<\/title>/,
+    `<title>${meta.title}</title>`
+  )
 
-      // react-helmet-async tomonidan meta taglar yangilanishini kutish
-      // Lazy-loaded komponentlar yuklanishi uchun qo'shimcha vaqt beramiz
-      await new Promise(resolve => setTimeout(resolve, 3000))
+  // meta description
+  result = result.replace(
+    /<meta name="description" content="[^"]*"\s*\/?>/,
+    `<meta name="description" content="${meta.description}" />`
+  )
 
-      // Yana helmet tag update bo'lganini tekshirish
-      await page.waitForFunction(
-        () => {
-          const titles = document.querySelectorAll('title')
-          const ogTitle = document.querySelector('meta[property="og:title"]')
-          // Helmet ishlasa — 2+ title bo'ladi yoki og:title paydo bo'ladi
-          return titles.length > 1 || (ogTitle && ogTitle.content !== '')
-        },
-        { timeout: 5000 }
-      ).catch(() => {})
+  // canonical URL
+  result = result.replace(
+    /<link rel="canonical" href="[^"]*"\s*\/?>/,
+    `<link rel="canonical" href="${SITE_URL}${meta.path}" />`
+  )
 
-      // To'liq HTML olish
-      let html = await page.content()
+  // og:url
+  result = result.replace(
+    /<meta property="og:url" content="[^"]*"\s*\/?>/,
+    `<meta property="og:url" content="${SITE_URL}${meta.path}" />`
+  )
 
-      // react-helmet-async dublikat title taglarni tozalash
-      // Helmet birinchi title qo'shadi, lekin original title qoladi
-      // Faqat birinchi (helmet) title ni saqlaymiz
-      const titleMatches = [...html.matchAll(/<title[^>]*>([^<]*)<\/title>/g)]
-      if (titleMatches.length > 1) {
-        // Birinchi title — helmet (sahifaga xos), ikkinchi — default
-        // Ikkinchi va keyingi titlelarni o'chiramiz
-        let count = 0
-        html = html.replace(/<title[^>]*>[^<]*<\/title>/g, (match) => {
-          count++
-          return count === 1 ? match : '' // faqat birinchisini saqla
-        })
+  // og:title
+  result = result.replace(
+    /<meta property="og:title" content="[^"]*"\s*\/?>/,
+    `<meta property="og:title" content="${meta.title}" />`
+  )
+
+  // og:description
+  result = result.replace(
+    /<meta property="og:description" content="[^"]*"\s*\/?>/,
+    `<meta property="og:description" content="${meta.description}" />`
+  )
+
+  // og:image
+  result = result.replace(
+    /<meta property="og:image" content="[^"]*"\s*\/?>/,
+    `<meta property="og:image" content="${meta.image}" />`
+  )
+
+  // og:type
+  result = result.replace(
+    /<meta property="og:type" content="[^"]*"\s*\/?>/,
+    `<meta property="og:type" content="${meta.type || 'website'}" />`
+  )
+
+  // Article uchun qo'shimcha meta taglar
+  if (meta.type === 'article') {
+    const articleTags = []
+    if (meta.publishedAt) {
+      articleTags.push(`<meta property="article:published_time" content="${meta.publishedAt}">`)
+    }
+    if (meta.author) {
+      articleTags.push(`<meta property="article:author" content="${meta.author}">`)
+    }
+    if (meta.tags && meta.tags.length > 0) {
+      for (const tag of meta.tags) {
+        articleTags.push(`<meta property="article:tag" content="${tag}">`)
       }
-
-      // Helmet taglarni saqlash, default taglarni o'chirish
-      // Helmet oxiriga qo'shadi — shuning uchun OXIRGI dublikatni saqlaymiz
-      const metaCounts = {}
-
-      // 1-pass: nechta bor sanash
-      html.replace(/<meta\s+([^>]+)>/g, (match, attrs) => {
-        const propMatch = attrs.match(/(?:property|name)="([^"]+)"/)
-        if (propMatch) {
-          metaCounts[propMatch[1]] = (metaCounts[propMatch[1]] || 0) + 1
-        }
-        return match
-      })
-
-      // 2-pass: dublikatlardan BIRINCHISINI o'chirish (oxirgisi = helmet tagi qoladi)
-      const metaSeen = {}
-      html = html.replace(/<meta\s+([^>]+)>/g, (match, attrs) => {
-        const propMatch = attrs.match(/(?:property|name)="([^"]+)"/)
-        if (propMatch) {
-          const key = propMatch[1]
-          metaSeen[key] = (metaSeen[key] || 0) + 1
-          if (metaCounts[key] > 1 && metaSeen[key] < metaCounts[key]) {
-            return '' // birinchi (default) ni o'chirish
-          }
-        }
-        return match
-      })
-
-      // Dublikat link[rel=canonical] tozalash — oxirgisini saqlash
-      const canonicals = [...html.matchAll(/<link\s+rel="canonical"[^>]*>/g)]
-      if (canonicals.length > 1) {
-        let canonicalIdx = 0
-        html = html.replace(/<link\s+rel="canonical"[^>]*>/g, (match) => {
-          canonicalIdx++
-          return canonicalIdx < canonicals.length ? '' : match // faqat oxirgisini saqla
-        })
-      }
-
-      // Prerender belgisi qo'shish
-      html = html.replace(
-        '</head>',
-        '<meta name="prerender-status" content="200" />\n</head>'
-      )
-
-      // Faylga saqlash
-      const filePath = route === '/'
-        ? join(DIST, 'index.html')
-        : join(DIST, route, 'index.html')
-
-      const dir = dirname(filePath)
-      if (!existsSync(dir)) {
-        mkdirSync(dir, { recursive: true })
-      }
-      writeFileSync(filePath, html)
-
-      // OG title tekshirish
-      const ogTitle = await page.$eval(
-        'meta[property="og:title"]',
-        el => el.content
-      ).catch(() => null)
-
-      console.log(`  ✅ ${route} → ${ogTitle || 'default title'}`)
-      success++
-
-      if (errors.length > 0) {
-        console.log(`     ⚠️  JS xatoliklar: ${errors.length}`)
-      }
-
-      await page.close()
-    } catch (err) {
-      console.log(`  ❌ ${route} — ${err.message}`)
-      failed++
+    }
+    if (articleTags.length > 0) {
+      result = result.replace('</head>', `    ${articleTags.join('\n    ')}\n  </head>`)
     }
   }
 
-  await browser.close()
-  server.close()
-
-  console.log(`\n✅ Prerender tugadi: ${success} muvaffaqiyatli, ${failed} xato\n`)
+  return result
 }
 
-prerender().catch(err => {
-  console.error('❌ Prerender xatosi:', err)
-  process.exit(1)
-})
+function prerender() {
+  console.log('\n🔄 Prerender boshlandi (Puppeteer\'siz)...\n')
+
+  // dist/index.html ni o'qish
+  const indexPath = join(DIST, 'index.html')
+  if (!existsSync(indexPath)) {
+    console.error('❌ dist/index.html topilmadi. Avval "vite build" ishga tushiring.')
+    process.exit(1)
+  }
+  const baseHtml = readFileSync(indexPath, 'utf-8')
+
+  // Route ma'lumotlarni olish
+  const routes = getRoutesMeta()
+
+  let success = 0
+
+  for (const meta of routes) {
+    const html = injectMeta(baseHtml, meta)
+
+    // Papka yaratish va fayl saqlash
+    const filePath = join(DIST, meta.path, 'index.html')
+    const dir = dirname(filePath)
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true })
+    }
+    writeFileSync(filePath, html)
+
+    console.log(`  ✅ ${meta.path} → ${meta.title}`)
+    success++
+  }
+
+  console.log(`\n✅ Prerender tugadi: ${success} ta sahifa yaratildi\n`)
+}
+
+prerender()
