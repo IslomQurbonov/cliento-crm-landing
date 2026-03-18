@@ -5,6 +5,7 @@ export const translations = {
     pricing: "Narxlar",
     faq: "Savollar",
     tutorial: "Qo'llanma",
+    blog: "Blog",
     tryDemo: "Demo sinab ko'ring",
 
     // Hero
@@ -373,6 +374,7 @@ export const translations = {
     pricing: "Цены",
     faq: "Вопросы",
     tutorial: "Руководство",
+    blog: "Блог",
     tryDemo: "Попробовать демо",
 
     // Hero
@@ -735,6 +737,7 @@ export const translations = {
     pricing: "Pricing",
     faq: "FAQ",
     tutorial: "Guide",
+    blog: "Blog",
     tryDemo: "Try Demo",
 
     // Hero

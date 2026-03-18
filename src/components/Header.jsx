@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Sun, Moon, Globe, BookOpen } from 'lucide-react';
+import { Menu, X, Sun, Moon, Globe, BookOpen, Newspaper } from 'lucide-react';
 import { Button } from './ui/button';
 import { translations } from '../lib/translations';
 import logoDark from '../assets/images/logo-dark.webp';
@@ -78,6 +78,13 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
             >
               {t.faq}
             </button>
+            <Link
+              to="/blog"
+              className="flex items-center gap-1.5 text-foreground hover:text-primary transition-colors duration-200"
+            >
+              <Newspaper className="w-4 h-4" />
+              {t.blog || "Blog"}
+            </Link>
             <Link
               to="/tutorial/dashboard"
               className="flex items-center gap-1.5 text-foreground hover:text-primary transition-colors duration-200"
@@ -168,6 +175,14 @@ const Header = ({ language, setLanguage, isDarkMode, setIsDarkMode, openDemoModa
               >
                 {t.faq}
               </button>
+              <Link
+                to="/blog"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-2 text-foreground hover:text-primary transition-colors duration-200"
+              >
+                <Newspaper className="w-4 h-4" />
+                {t.blog || "Blog"}
+              </Link>
               <Link
                 to="/tutorial/dashboard"
                 onClick={() => setIsMenuOpen(false)}

@@ -91,6 +91,30 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://cliento.uz/blog</loc>
+    <lastmod>2026-03-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cliento.uz/blog/crm-nima</loc>
+    <lastmod>2026-03-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cliento.uz/blog/mijozlarni-yoqotmaslik-7-tavsiya</loc>
+    <lastmod>2026-03-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cliento.uz/blog/cliento-yangi-imkoniyatlar-mart-2026</loc>
+    <lastmod>2026-03-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://cliento.uz/demo</loc>
     <lastmod>2026-03-18</lastmod>
     <changefreq>monthly</changefreq>

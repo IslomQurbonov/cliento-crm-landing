@@ -14,6 +14,7 @@ const Pricing = lazy(() => import("./components/Pricing"));
 const FAQ = lazy(() => import("./components/FAQ"));
 const Footer = lazy(() => import("./components/Footer"));
 const DemoModal = lazy(() => import("./components/DemoModal"));
+const Blog = lazy(() => import("./pages/Blog"));
 const Tutorial = lazy(() => import("./pages/Tutorial"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
@@ -146,6 +147,23 @@ function App() {
                 <Footer language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} />
               </Suspense>
             </>
+          }
+        />
+        <Route
+          path="/blog/*"
+          element={
+            <Suspense fallback={
+              <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+              </div>
+            }>
+              <Blog
+                language={language}
+                setLanguage={setLanguage}
+                isDarkMode={isDarkMode}
+                setIsDarkMode={setIsDarkMode}
+              />
+            </Suspense>
           }
         />
         <Route

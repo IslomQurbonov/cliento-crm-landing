@@ -113,6 +113,14 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                 </li>
                 <li>
                   <Link
+                    to="/blog"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                  >
+                    {t.blog || "Blog"}
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="/tutorial/dashboard"
                     className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                   >
