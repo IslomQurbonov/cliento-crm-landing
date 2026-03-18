@@ -61,7 +61,7 @@ function TutorialSidebar({ language, activeId, onSelect, search, setSearch, isMo
                     onSelect(section.id);
                     if (isMobile) onClose();
                   }}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors text-left ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors text-left cursor-pointer ${
                     isActive
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -289,7 +289,7 @@ function TutorialContent({ language }) {
         {prevSection ? (
           <button
             onClick={() => navigate(`/tutorial/${prevSection.id}`)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm bg-muted hover:bg-muted/80 text-foreground transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm bg-muted hover:bg-muted/80 text-foreground transition-colors cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4" />
             <div className="text-left">
@@ -303,7 +303,7 @@ function TutorialContent({ language }) {
         {nextSection ? (
           <button
             onClick={() => navigate(`/tutorial/${nextSection.id}`)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm bg-muted hover:bg-muted/80 text-foreground transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm bg-muted hover:bg-muted/80 text-foreground transition-colors cursor-pointer"
           >
             <div className="text-right">
               <div className="text-xs text-muted-foreground">{t.nextSection}</div>
@@ -374,7 +374,7 @@ function TutorialWelcome({ language }) {
         <button
           key={section.id}
           onClick={() => navigate(`/tutorial/${section.id}`)}
-          className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-md transition-all text-left group"
+          className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-md transition-all text-left group cursor-pointer"
         >
           <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
             <Icon className="w-5 h-5 text-primary" />
