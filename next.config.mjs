@@ -61,6 +61,17 @@ const nextConfig = {
     return [];
   },
 
+  // Proxy API requests to backend (avoids CORS & CSP issues)
+  async rewrites() {
+    const apiUrl = process.env.API_URL || 'http://localhost:4010';
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${apiUrl}/api/:path*`,
+      },
+    ];
+  },
+
   poweredByHeader: false,
 };
 
