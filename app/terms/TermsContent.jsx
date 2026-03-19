@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
@@ -10,7 +11,9 @@ import { translations } from '@/lib/translations';
 export default function TermsContent() {
   const { language } = useLanguage();
   const { resolvedTheme } = useTheme();
-  const isDarkMode = resolvedTheme === 'dark';
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDarkMode = mounted ? resolvedTheme === 'dark' : false;
 
   const t = translations[language];
   const legal = t.legal || {};

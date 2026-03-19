@@ -41,7 +41,9 @@ function formatDate(dateStr) {
 export default function BlogPostClient({ slug }) {
   const { language } = useLanguage();
   const { resolvedTheme } = useTheme();
-  const isDarkMode = resolvedTheme === 'dark';
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDarkMode = mounted ? resolvedTheme === 'dark' : false;
   const blogT = blogTranslations[language] || blogTranslations.uz;
   const [copied, setCopied] = useState(false);
 

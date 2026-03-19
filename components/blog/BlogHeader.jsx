@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
@@ -68,7 +68,9 @@ function LanguageSwitcher() {
 
 export default function BlogHeader({ showBackToBlog = false, blogT }) {
   const { resolvedTheme, setTheme } = useTheme();
-  const isDarkMode = resolvedTheme === 'dark';
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDarkMode = mounted ? resolvedTheme === 'dark' : false;
 
   return (
     <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">

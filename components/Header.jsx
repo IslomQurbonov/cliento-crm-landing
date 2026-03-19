@@ -16,13 +16,16 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { language, setLanguage } = useLanguage();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { openDemoModal } = useDemoModal();
-  const isDarkMode = resolvedTheme === 'dark';
+  const isDarkMode = mounted ? resolvedTheme === 'dark' : false;
   const t = translations[language];
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     let ticking = false;

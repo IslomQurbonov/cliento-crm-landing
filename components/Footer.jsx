@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -43,7 +43,9 @@ const Footer = () => {
   const pathname = usePathname();
   const { language, setLanguage } = useLanguage();
   const { resolvedTheme } = useTheme();
-  const isDarkMode = resolvedTheme === 'dark';
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDarkMode = mounted ? resolvedTheme === 'dark' : false;
   const t = translations[language];
 
   const languages = [

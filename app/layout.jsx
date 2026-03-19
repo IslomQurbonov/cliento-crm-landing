@@ -120,7 +120,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="uz" suppressHydrationWarning>
+    <html lang="uz" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <meta name="theme-color" content="#2563eb" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />

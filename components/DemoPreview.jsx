@@ -33,27 +33,27 @@ const DemoPreview = () => {
   const slides = [
     {
       images: {
-        desktop: '/images/Dashboard desktop.webp',
-        tablet: '/images/Dashboard Tablet.webp',
-        mobile: '/images/Dashboard Mobile.webp'
+        desktop: '/images/dashboard-desktop.webp',
+        tablet: '/images/dashboard-tablet.webp',
+        mobile: '/images/dashboard-mobile.webp'
       },
       title: t.slideDashboardTitle,
       description: t.slideDashboardDesc
     },
     {
       images: {
-        desktop: '/images/Lead desktop.webp',
-        tablet: '/images/Lead tablet.webp',
-        mobile: '/images/Lead mobile.webp'
+        desktop: '/images/lead-desktop.webp',
+        tablet: '/images/lead-tablet.webp',
+        mobile: '/images/lead-mobile.webp'
       },
       title: t.slideLeadTitle,
       description: t.slideLeadDesc
     },
     {
       images: {
-        desktop: '/images/Task desktop.webp',
-        tablet: '/images/Task tablet.webp',
-        mobile: '/images/Task mobile.webp'
+        desktop: '/images/task-desktop.webp',
+        tablet: '/images/task-tablet.webp',
+        mobile: '/images/task-mobile.webp'
       },
       title: t.slideTaskTitle,
       description: t.slideTaskDesc

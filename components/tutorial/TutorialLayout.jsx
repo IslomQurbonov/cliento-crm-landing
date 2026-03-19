@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -12,11 +12,13 @@ import TutorialSidebar from './TutorialSidebar';
 
 export default function TutorialLayout({ children, activeId }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
   const { language } = useLanguage();
   const router = useRouter();
 
-  const isDarkMode = resolvedTheme === 'dark';
+  useEffect(() => setMounted(true), []);
+  const isDarkMode = mounted ? resolvedTheme === 'dark' : false;
   const t = tutorialTranslations[language];
 
   const handleSelect = (id) => {
