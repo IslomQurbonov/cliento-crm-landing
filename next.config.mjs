@@ -34,7 +34,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
-              "connect-src 'self' https://api.cliento.uz https://www.google-analytics.com https://www.googletagmanager.com",
+              "connect-src 'self' https://api.cliento.uz https://api.crmcha.uz https://www.google-analytics.com https://www.googletagmanager.com",
               "frame-src https://www.googletagmanager.com",
               "object-src 'none'",
               "base-uri 'self'",
