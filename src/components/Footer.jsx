@@ -149,7 +149,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
                 </li>
                 <li>
                   <a
-                    href="https://t.me/cliento_support"
+                    href="https://t.me/code_mode"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
@@ -287,7 +287,7 @@ const Footer = ({ language, setLanguage, isDarkMode }) => {
               </li>
               <li>
                 <a
-                  href="https://t.me/cliento_support"
+                  href="https://t.me/code_mode"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"

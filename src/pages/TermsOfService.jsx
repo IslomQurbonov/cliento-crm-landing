@@ -156,7 +156,7 @@ const TermsOfService = ({ language, isDarkMode }) => {
               </p>
               <ul className="mt-2 space-y-1 text-muted-foreground">
                 <li>Email: <a href="mailto:info@cliento.uz" className="text-primary hover:underline">info@cliento.uz</a></li>
-                <li>Telegram: <a href="https://t.me/cliento_support" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@cliento_support</a></li>
+                <li>Telegram: <a href="https://t.me/code_mode" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@code_mode</a></li>
                 <li>{legal.termsContactPhone || "Telefon"}: <a href="tel:+998771147555" className="text-primary hover:underline">+998 77 114 75 55</a></li>
               </ul>
             </section>

@@ -110,7 +110,7 @@ const FAQ = ({ language }) => {
                 {t.contactSupport}
               </a>
               <a
-                href="https://t.me/cliento_support"
+                href="https://t.me/code_mode"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cursor-pointer border border-border px-6 py-3 rounded-lg font-semibold hover:bg-muted transition-colors inline-block"
