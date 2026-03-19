@@ -6,12 +6,20 @@ const DemoModalContext = createContext(undefined);
 
 export function DemoModalProvider({ children }) {
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState('');
 
-  const openDemoModal = useCallback(() => setIsDemoModalOpen(true), []);
-  const closeDemoModal = useCallback(() => setIsDemoModalOpen(false), []);
+  const openDemoModal = useCallback((planName = '') => {
+    setSelectedPlan(planName);
+    setIsDemoModalOpen(true);
+  }, []);
+
+  const closeDemoModal = useCallback(() => {
+    setIsDemoModalOpen(false);
+    setSelectedPlan('');
+  }, []);
 
   return (
-    <DemoModalContext.Provider value={{ isDemoModalOpen, openDemoModal, closeDemoModal }}>
+    <DemoModalContext.Provider value={{ isDemoModalOpen, selectedPlan, openDemoModal, closeDemoModal }}>
       {children}
     </DemoModalContext.Provider>
   );

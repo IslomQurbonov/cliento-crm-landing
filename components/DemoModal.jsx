@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { translations } from '@/lib/translations';
 import { useLanguage } from '@/providers/LanguageProvider';
 
-const DemoModal = ({ isOpen, onClose }) => {
+const DemoModal = ({ isOpen, onClose, selectedPlan = '' }) => {
   const { language } = useLanguage();
   const [step, setStep] = useState(1);
   const [selectedBusiness, setSelectedBusiness] = useState('');
@@ -121,6 +121,7 @@ const DemoModal = ({ isOpen, onClose }) => {
           phone: formData.phone.trim(),
           companyName: formData.companyName.trim(),
           employeeCount: formData.employeeCount,
+          selectedPlan: selectedPlan || undefined,
         }),
       });
 

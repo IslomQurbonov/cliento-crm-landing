@@ -15,7 +15,7 @@ import ScrollToSection from '@/components/ScrollToSection';
 import { useDemoModal } from '@/providers/DemoModalProvider';
 
 export default function LandingContent({ autoOpenDemo = false }) {
-  const { isDemoModalOpen, openDemoModal, closeDemoModal } = useDemoModal();
+  const { isDemoModalOpen, selectedPlan, openDemoModal, closeDemoModal } = useDemoModal();
 
   // Auto-open demo modal for /demo route
   if (autoOpenDemo && !isDemoModalOpen) {
@@ -40,7 +40,7 @@ export default function LandingContent({ autoOpenDemo = false }) {
       <Footer />
 
       {isDemoModalOpen && (
-        <DemoModal isOpen={isDemoModalOpen} onClose={closeDemoModal} />
+        <DemoModal isOpen={isDemoModalOpen} onClose={closeDemoModal} selectedPlan={selectedPlan} />
       )}
 
       <ScrollToTop />

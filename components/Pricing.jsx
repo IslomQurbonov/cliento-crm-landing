@@ -167,7 +167,7 @@ const PlanCard = ({ plan, billingCycle, t, openDemoModal, isActive }) => {
 
       {/* CTA Button */}
       <Button
-        onClick={openDemoModal}
+        onClick={() => openDemoModal(plan.name)}
         className={`cursor-pointer w-full py-3 mt-auto ${
           isPopular
             ? "btn-primary"

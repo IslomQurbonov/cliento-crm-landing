@@ -63,7 +63,7 @@ export async function POST(request) {
     );
   }
 
-  const { businessType, name, phone, companyName, employeeCount } = body;
+  const { businessType, name, phone, companyName, employeeCount, selectedPlan } = body;
 
   // 4. Validatsiya
   if (!validateBusinessType(businessType)) {
@@ -101,6 +101,7 @@ export async function POST(request) {
     phone: sanitizeInput(phone, 20),
     companyName: companyName ? sanitizeInput(companyName, 200) : '',
     employeeCount: employeeCount || '1-5',
+    selectedPlan: selectedPlan ? sanitizeInput(selectedPlan, 100) : undefined,
   };
 
   // 6. Backend API ga forward qilish
