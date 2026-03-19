@@ -7,8 +7,8 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }) {
-  const { sectionId } = params;
+export async function generateMetadata({ params }) {
+  const { sectionId } = await params;
   const section = tutorialSections.find((s) => s.id === sectionId);
 
   if (!section) {
@@ -44,6 +44,7 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function TutorialSectionPage({ params }) {
-  return <TutorialSectionClient sectionId={params.sectionId} />;
+export default async function TutorialSectionPage({ params }) {
+  const { sectionId } = await params;
+  return <TutorialSectionClient sectionId={sectionId} />;
 }

@@ -15,6 +15,7 @@ import { translations } from "@/lib/translations";
 import { fetchActivePlans } from "@/lib/api";
 import { useLanguage } from "@/providers/LanguageProvider";
 import { useDemoModal } from "@/providers/DemoModalProvider";
+import Script from "next/script";
 
 // Feature limit -> human-readable label per language
 const featureLabels = {
@@ -334,8 +335,10 @@ const Pricing = () => {
     <section id="pricing" ref={sectionRef} className="py-20 bg-muted/30">
       {/* Pricing JSON-LD */}
       {pricingJsonLd && (
-        <script
+        <Script
+          id="pricing-jsonld"
           type="application/ld+json"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }}
         />
       )}

@@ -11,8 +11,8 @@ export function generateStaticParams() {
 
 /* ─────────────────────── SEO Metadata ─────────────────────── */
 
-export function generateMetadata({ params }) {
-  const { slug } = params;
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
 
   if (!post) {
@@ -88,6 +88,7 @@ export function generateMetadata({ params }) {
 
 /* ─────────────────────── Page (Server Component) ─────────── */
 
-export default function BlogPostPage({ params }) {
-  return <BlogPostClient slug={params.slug} />;
+export default async function BlogPostPage({ params }) {
+  const { slug } = await params;
+  return <BlogPostClient slug={slug} />;
 }
