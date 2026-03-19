@@ -83,7 +83,7 @@ const Hero = () => {
               {/* Main Dashboard Image */}
               <div className="relative z-10 transform lg:rotate-2 hover:rotate-0 transition-transform duration-500">
                 <img
-                  src="/images/Dashboard desktop.webp"
+                  src="/images/dashboard-desktop.webp"
                   alt="Cliento CRM Dashboard - mijozlar boshqaruv tizimi"
                   className="w-full h-auto rounded-2xl shadow-2xl hover-lift"
                   width={1536}
