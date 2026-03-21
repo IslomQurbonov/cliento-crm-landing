@@ -1,5 +1,7 @@
 /* ─────────────────────── ContentRenderer ─────────────────────── */
 
+import Link from 'next/link';
+
 export default function ContentRenderer({ blocks }) {
   if (!blocks || !Array.isArray(blocks)) return null;
 
@@ -22,6 +24,7 @@ export default function ContentRenderer({ blocks }) {
               return (
                 <h2
                   key={index}
+                  id={slugify(block.text)}
                   className="text-2xl md:text-3xl font-bold text-foreground mb-4 mt-10"
                 >
                   {block.text}
@@ -32,6 +35,7 @@ export default function ContentRenderer({ blocks }) {
               return (
                 <h3
                   key={index}
+                  id={slugify(block.text)}
                   className="text-xl md:text-2xl font-semibold text-foreground mb-3 mt-8"
                 >
                   {block.text}
@@ -63,7 +67,12 @@ export default function ContentRenderer({ blocks }) {
                 key={index}
                 className="border-l-4 border-primary/40 pl-6 my-8 italic text-foreground/80 text-lg"
               >
-                {block.text}
+                <p>{block.text}</p>
+                {block.author && (
+                  <cite className="not-italic text-sm text-muted-foreground mt-2 block">
+                    — {block.author}
+                  </cite>
+                )}
               </blockquote>
             );
 
@@ -89,4 +98,16 @@ export default function ContentRenderer({ blocks }) {
       })}
     </>
   );
+}
+
+/* ─────── Heading ni anchor link ga aylantirish uchun slug yaratish ─────── */
+
+function slugify(text) {
+  if (!text) return '';
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
 }

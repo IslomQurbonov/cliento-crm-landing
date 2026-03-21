@@ -18,19 +18,29 @@
 - Misol: `crm-nima-1.webp`, `crm-nima-2.webp`
 - Joyi: `public/blog/`
 - Hajmi: bitta rasm **200KB** dan oshmasin
+- Har 1000 so'z uchun ~2 ta rasm
 
 ---
 
 ## Maqola yaratish
 
+### Fayl strukturasi (modular)
+Har bir maqola alohida faylda saqlanadi:
+```
+lib/articles/
+  index.js                              ← Barcha maqolalarni eksport qiladi
+  crm-nima-toliq-qollanma.js            ← Maqola 1
+  mijozlarni-yoqotmaslik-uchun-7-ta-tavsiya.js  ← Maqola 2
+  ...
+```
+
+`blogData.js` faqat kategoriyalar, tarjimalar va yordamchi funksiyalarni saqlaydi.
+Maqolalar `lib/articles/index.js` orqali import qilinadi.
+
 ### Slug (URL identifikator)
 - Faqat kichik harf, raqam va `-` (tire)
 - O'zbekcha so'zlar transliteratsiya qilinmaydi — to'g'ridan to'g'ri yoziladi
 - Misol: `crm-nima`, `mijozlarni-yoqotmaslik-7-tavsiya`
-
-### Fayl
-- Barcha maqolalar `src/lib/blogData.js` ichida `blogPosts` massivida saqlanadi
-- Har bir maqola 3 tilda bo'lishi kerak: `uz`, `ru`, `en`
 
 ### Majburiy maydonlar
 ```javascript
@@ -41,6 +51,7 @@
   author: "Cliento",             // Muallif nomi
   publishedAt: "2026-03-18",     // Nashr sanasi (YYYY-MM-DD)
   tags: ["crm", "biznes"],       // Teglar (SEO uchun muhim)
+  relatedSlugs: ["boshqa-maqola-slug"], // Cross-article SEO linking
   uz: { title, description, content },
   ru: { title, description, content },
   en: { title, description, content },
@@ -48,7 +59,8 @@
 ```
 
 ### Description (meta tavsif)
-- 150-160 belgi (Google qidiruv natijalarida to'liq ko'rinishi uchun)
+- 150 belgidan kam (Google qidiruv natijalarida to'liq ko'rinishi uchun)
+- Action-driven tilda yozish
 - Kalit so'zlarni tabiiy ravishda qo'shish
 
 ### Content bloklari
@@ -93,8 +105,26 @@ Yangi kategoriya qo'shish uchun `blogCategories` massiviga qo'shing.
 - `<meta description>` — maqolaning `description` maydoni
 - `<link rel="canonical">` — `https://cliento.uz/blog/{slug}`
 - hreflang taglar (uz, ru, en)
-- Open Graph taglar (og:title, og:description, og:image)
-- JSON-LD Article schema
+- Open Graph taglar (og:title, og:description, og:image, article:section)
+- JSON-LD BlogPosting schema (headline, author, datePublished, dateModified, image, publisher, wordCount)
+- JSON-LD FAQPage schema (agar maqolada FAQ bo'limi bo'lsa — avtomatik aniqlanadi)
+
+### On-page struktura
+- Bitta H1 (title) — sahifa sarlavhasi
+- H2 asosiy bo'limlar uchun, H3 kichik bo'limlar uchun
+- Har 150-200 so'zda yangi heading
+- Qisqa paragraflar (2-3 gap)
+- Asosiy kalit so'z birinchi 100 so'z ichida bo'lishi kerak
+
+### Maqola hajmi
+- **1,800–2,500 so'z** har bir maqolada
+- Hech qachon sun'iy to'ldirmang — har bir gap qiymatli bo'lsin
+
+### Featured snippet optimizatsiya
+- Asosiy H2 sarlavhalarni savol shaklida yozing
+- Savol ostida darhol 40-60 so'zlik javob bering
+- Jarayon/qadam kontent uchun tartiblangan ro'yxat ishlating
+- Solishtiruv kontent uchun jadval ishlating
 
 ### Kalit so'zlar (tags)
 - Har bir maqolada kamida 3-5 ta tag
@@ -102,15 +132,26 @@ Yangi kategoriya qo'shish uchun `blogCategories` massiviga qo'shing.
 - Umumiy + aniq teglar aralashtiriladi: `["crm", "biznes", "mijozlar", "avtomatlashtirish"]`
 
 ### Sitemap
-- Yangi maqola qo'shilganda `public/sitemap.xml` ga ham URL qo'shish kerak:
-```xml
-<url>
-  <loc>https://cliento.uz/blog/{slug}</loc>
-  <lastmod>{sana}</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.7</priority>
-</url>
-```
+- `app/sitemap.js` avtomatik ravishda barcha blogPosts dan URL yaratadi
+- Qo'shimcha amal kerak emas
+
+---
+
+## Cross-article SEO linking
+
+### relatedSlugs maydoni
+Har bir maqolada `relatedSlugs` massivi bo'lishi kerak — boshqa tegishli maqolalar sluglari.
+Bu "Shuningdek o'qing" bo'limida va SEO interlinking uchun ishlatiladi.
+
+### Linking strategiyasi (10 maqola uchun)
+- **Pillar page** (masalan, "CRM nima?") barcha boshqa maqolalarga link qiladi
+- **CRM Basics** maqolalari (ta'lim asosi) — bir-biriga va tips/business maqolalarga link qiladi
+- **Tips** maqolalari (amaliy qatlam) — pillar ga va 2-3 tegishli maqolaga link qiladi
+- **Business** maqolalari (konversiya qatlami) — keng doirada link qiladi, ROI maqolasi oxirgi konversiya bo'lagi
+
+### InternalLinks komponenti
+Maqola kontentidan keyin avtomatik `InternalLinks` komponenti chiqadi.
+U `relatedSlugs` dagi maqolalarning title va description ini ko'rsatadi.
 
 ---
 
@@ -118,39 +159,11 @@ Yangi kategoriya qo'shish uchun `blogCategories` massiviga qo'shing.
 
 1. Rasmlarni tayyorlash (cover 1200x630, content 1200xN, webp format)
 2. `public/blog/` ga rasmlarni yuklash
-3. `src/lib/blogData.js` → `blogPosts` massiviga yangi post qo'shish (3 tilda)
-4. `scripts/prerender.mjs` → `ROUTES` massiviga `/blog/{slug}` qo'shish
-5. `public/sitemap.xml` ga yangi URL qo'shish
-6. `npm run build` bilan tekshirish (prerender avtomatik ishlaydi)
+3. `lib/articles/{slug}.js` — yangi maqola faylini yaratish (3 tilda)
+4. `lib/articles/index.js` — import qo'shish va articles massiviga qo'shish
+5. Boshqa tegishli maqolalarning `relatedSlugs` iga yangi maqola slugini qo'shish
+6. `npm run build` bilan tekshirish
 7. Commit va push
-
----
-
-## Prerender (SSG)
-
-Build jarayoni: `npm run build` = `vite build` + `node scripts/prerender.mjs`
-
-### Qanday ishlaydi
-1. Vite odatiy SPA build qiladi (`dist/index.html`)
-2. Puppeteer har bir route ni brauzerda ochadi
-3. react-helmet-async meta taglarni qo'yadi
-4. To'liq HTML saqlanadi: `dist/blog/{slug}/index.html`
-
-### Nima uchun kerak
-- **Telegram/Facebook/Twitter** link share qilganda to'g'ri title, rasm, tavsif ko'rsatadi
-- **Google/Yandex** darhol indekslaydi (JS render kutmaydi)
-- Foydalanuvchi tajribasi o'zgarmaydi — SPA odatdagidek ishlaydi
-
-### Yangi post qo'shganda
-`scripts/prerender.mjs` dagi `ROUTES` massiviga slug qo'shish:
-```javascript
-const ROUTES = [
-  '/',
-  '/blog',
-  '/blog/yangi-post-slug',  // ← yangi qo'shiladi
-  ...
-]
-```
 
 ---
 
@@ -158,8 +171,11 @@ const ROUTES = [
 
 - Blog sahifasi **lazy-loaded** — asosiy landing tezligiga ta'sir qilmaydi
 - O'qish vaqti avtomatik hisoblanadi (200 so'z/daqiqa)
-- O'xshash maqolalar bir xil kategoriyadan avtomatik tanlanadi
+- O'xshash maqolalar: avval `relatedSlugs` dan, keyin bir xil kategoriyadan, keyin boshqa kategoriyalardan
 - Dark mode to'liq qo'llab-quvvatlanadi
 - 3 tilda ishlaydi (uz, ru, en)
-- **Prerender** — build vaqtida statik HTML yaratadi (SEO uchun)
+- Headinglar avtomatik `id` attribute oladi (anchor link uchun)
+- Quote bloklarda `author` alohida `<cite>` tag bilan chiqadi
 - **Share tugmasi** — URL ni clipboard ga ko'chiradi, "Nusxa olindi!" feedback beradi
+- **InternalLinks** — maqola oxirida cross-article havolalar ko'rsatadi
+- **FAQPage schema** — FAQ bo'limi bo'lgan maqolalarda avtomatik JSON-LD yaratiladi

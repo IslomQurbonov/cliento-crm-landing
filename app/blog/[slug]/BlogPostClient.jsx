@@ -24,6 +24,7 @@ import {
 import BlogHeader from '@/components/blog/BlogHeader';
 import BlogCard from '@/components/blog/BlogCard';
 import ContentRenderer from '@/components/blog/ContentRenderer';
+import InternalLinks from '@/components/blog/InternalLinks';
 import Footer from '@/components/Footer';
 
 /* ─────────────────────── helpers ─────────────────────── */
@@ -187,6 +188,9 @@ export default function BlogPostClient({ slug }) {
             <div className="prose-like">
               <ContentRenderer blocks={postData.content} />
             </div>
+
+            {/* Internal cross-article links (SEO) */}
+            <InternalLinks slug={post.slug} />
 
             {/* Tags */}
             {post.tags && post.tags.length > 0 && (
