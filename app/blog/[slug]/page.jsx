@@ -80,6 +80,7 @@ export async function generateMetadata({ params }) {
   return {
     title: `${postData.title} — Cliento Blog`,
     description: postData.description,
+    keywords: post.keywords || post.tags,
     alternates: {
       canonical: `https://cliento.uz/blog/${post.slug}`,
       languages: {
